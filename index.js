@@ -4,36 +4,26 @@ import "./navigo_EditedByLars.js"; //Will create the global Navigo, with a few c
 
 import { setActiveLink, loadHtml, renderHtml } from "./utils.js";
 
-import { initActivities}from "./pages/activities/activities.js";
-import { initEquipment } from "./pages/equipment/showEquipment.js";
-import { initAllReservations } from "./pages/reservation/reservation.js";
-import { initMakeReservations } from "./pages/MakeReservation/makeReservation.js";
-import { initSignup } from "./pages/signup/addUser.js";
+import { initMealPlanGenerator } from "./pages/mealPlanGenerator/mealPlanGenerator.js";
+
+
 import { initLogin } from "./pages/login/login.js";
-import { initListReservationsForUser } from "./pages/MyReservations/showReservationForUser.js";
 import { toggleUiBasedOnRoles } from "./pages/login/login.js";
-import { initAssignEmployee } from "./pages/SysAdmin/assignEmployee.js";import { initEditReservation } from "./pages/editReservation/editReservation.js";
 
 
 
 window.addEventListener("load", async () => {
-  const templateActivities = await loadHtml("./pages/activities/activities.html");
-  const templateReservations = await loadHtml("./pages/reservation/reservation.html");
-  const templateEquipment = await loadHtml("./pages/equipment/showEquipment.html");
+
+  const templateMealPlanGenerator = await loadHtml("./pages/mealPlanGenerator/mealPlanGenerator.html");
+
   const templateLogin = await loadHtml("./pages/login/login.html");  
-  const templateAddUser = await loadHtml("./pages/signup/addUser.html");
-  const templateMakeReservation = await loadHtml("./pages/MakeReservation/makeReservation.html")
-  const templateMyReservations = await loadHtml("./pages/MyReservations/myReservations.html")
-  const templateAssignEmployee = await loadHtml("./pages/SysAdmin/assignEmployee.html")
   
-  const templateEditReservation = await loadHtml("./pages/editReservation/editReservation.html")
   const templateNotFound = await loadHtml("./pages/notFound/notFound.html");
 
-  // **** FORSØK PÅ Å LAGE EN NY TEMPLATE SELV
-  const templateNewTemplate = await loadHtml("./pages/newTemplate/newTemplate.html")
 
   //If token existed, for example after a refresh, set UI accordingly
   const token = localStorage.getItem("token");
+
   //toggleLoginStatus(token);
 
   // @ts-ignore
@@ -55,58 +45,26 @@ window.addEventListener("load", async () => {
       "/": () =>
         (document.getElementById("content").innerHTML = `
         <div class="container" style="width: 80%">
-        <h1>Neal Plan Generator</h1>
-        <p>try out. </p>
+        <h1>Meal Plan Generator</h1>
+        <p>About</p>
 
 
-        <img style="width: 100%" src="images/MealMentorLogo.png" />
+        <img style="width: 100px" src="images/MealMentorLogo.png" />
       </div>
 
      `),
-      "/activities": () => {
-        renderHtml(templateActivities, "content");
-        initActivities();
+      "/mealPlanGenerator": () => {
+        renderHtml(templateMealPlanGenerator, "content");
+        initMealPlanGenerator();
       },
-      "/equipment": () => {
-        renderHtml(templateEquipment, "content");
-        initEquipment();
-      },
-      "/reservations": () => {
-        renderHtml(templateReservations, "content");
-       initAllReservations();
-             },
-      "/signup": () => {
-        renderHtml(templateAddUser, "content");
-        initSignup();
-      },
+
       "/login": () => {
         renderHtml(templateLogin, "content");
         initLogin();
       },
-      "/makeReservation": ()=>{
-        renderHtml(templateMakeReservation, "content");
-        initMakeReservations();
-      },
-      "/myReservations": ()=>{
-        renderHtml(templateMyReservations, "content");
-        initListReservationsForUser();
-      },
-      "assignEmployee": () => {
-       renderHtml(templateAssignEmployee, "content")
-       initAssignEmployee();
-
-      },
-      "/editReservation": () => {
-       renderHtml(templateEditReservation, "content")
-        initEditReservation();
-      },
       "/logout": () => {
         logout();
         alert("You are now logged out")
-      },
-      "/newTemplate": () => {
-        renderHtml(templateNewTemplate, "content");
-        alert("NewTemplate")
       },
   
     })

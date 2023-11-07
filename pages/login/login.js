@@ -77,51 +77,49 @@ export async function initLogin() {
       }
 }
 
+
 export function toggleUiBasedOnRoles(loggedIn) {
+  
     const loginContainer = document.getElementById("login-container");
     const logoutContainer = document.getElementById("logout-container");
     const signupContainer = document.getElementById("signup-container");
-    const assignEmployeeContainer = document.getElementById("assignEmployee-container");
     const myReservationsContainer = document.getElementById("myReservations-container");
-    const makeReservationContainer = document.getElementById("makeReservation-container");
-    const allReservationsContainer = document.getElementById("allReservations-container");
+
     const token = localStorage.getItem("token");
     const roles = localStorage.getItem("roles");
+
     const activityName = localStorage.getItem("activityName")
     console.log("Roles: ", roles)
     console.log("token: ", token)
     console.log("activityName: ", activityName)
-    if(loggedIn) {
+    
+
+    // Visibility
+    logoutContainer.style.display = "block"
+    loginContainer.style.display = "none"
+    signupContainer.style.display = "none"
+
+    /* if(loggedIn) {
       const isAdmin = roles.includes("ADMIN");
-      const isEmployee = roles.includes("EMPLOYEE")
       console.log("Is admin", isAdmin)
       
-     
       logoutContainer.style.display = "block"
       loginContainer.style.display = "none"
       signupContainer.style.display = "none"
-      myReservationsContainer.style.display = "block"
-      makeReservationContainer.style.display = "block"
-      assignEmployeeContainer.style.display = "none"
     
+      // Evt. admin specifik tilgang
       if(isAdmin) {
-        assignEmployeeContainer.style.display = "block"
-      }
-  
-      if(isAdmin || isEmployee) {
         
-        allReservationsContainer.style.display = "block"
       }
       
     }
+    
       else {
         logoutContainer.style.display = "none"
-        assignEmployeeContainer.style.display = "none"
         signupContainer.style.display = "block"
         loginContainer.style.display = "block"
         myReservationsContainer.style.display = "none"
-        makeReservationContainer.style.display = "none"
-        allReservationsContainer.style.display = "none"
       }
+      */
 
     }
