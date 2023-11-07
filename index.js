@@ -55,12 +55,11 @@ window.addEventListener("load", async () => {
       "/": () =>
         (document.getElementById("content").innerHTML = `
         <div class="container" style="width: 80%">
-        <h1>Adventure Park</h1>
-        <p>Adventure Park is a place where you can have fun with your friends and family. We have a lot of activities for you to try out. </p>
-        <p>Click on the links in the navigation bar to see what we have to offer.</p>
+        <h1>Neal Plan Generator</h1>
+        <p>try out. </p>
 
 
-        <img style="width: 100%" src="images/adventurePark.jpg" />
+        <img style="width: 100%" src="images/MealMentorLogo.png" />
       </div>
 
      `),
