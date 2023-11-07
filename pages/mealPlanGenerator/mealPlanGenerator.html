@@ -12,6 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
     crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -68,12 +69,13 @@
       </li>
 
       <li>
-        <p>Preferences or allergies</p>
-        <div class="input-group">
-          <input type="text" id="age" class="result" placeholder="Enter Age">
-
-        </div>
-      </li>
+        <p>Preferences</p>
+        <div class="container">
+          <div id="preference-list">
+              <!-- Initially, this can be empty or contain pre-defined items -->
+          </div>
+          <button class="btn btn-primary" id="add-preference">Add Item</button>
+      </div>   
 
       <li>
         <div>
@@ -166,6 +168,7 @@ Prøv så at stille en række andre spørgsmål, eksempelvis
   </div>
 
   <script src="./javascript.js"></script>
+  <script src="mealPlanGenerator.js"></script>
 </body>
 
 </html>
