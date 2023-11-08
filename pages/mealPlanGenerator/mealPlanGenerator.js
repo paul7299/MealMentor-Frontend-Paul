@@ -7,21 +7,13 @@ import {
 
 const SERVER_URL = API_URL + "/mealPlanGenerator";
 
-const itemList = document.getElementById("preference-list");
-const addItemButton = document.getElementById("add-preference");
 
 
 
-document.addEventListener("DOMContentLoaded", function() {
 
-  addItemButton.addEventListener("click", function() {
-      const inputField = document.createElement("input");
-      inputField.type = "text";
-      inputField.placeholder = "Enter preference/allergy";
 
-      itemList.appendChild(inputField);
-    });
-  });
+
+
   
   
   export async function initMealPlanGenerator() {
@@ -47,5 +39,16 @@ document.addEventListener("DOMContentLoaded", function() {
   } finally {
     spinner.style.display = "none";
   }
+  const addItemButton = document.getElementById("add-preference");
+
+addItemButton.addEventListener("click", function() {
+  const inputField = document.createElement("input");
+  inputField.type = "text";
+  inputField.placeholder = "Enter preference/allergy";
+  
+  // Add the input field to the itemList or another container.
+  const itemList = document.getElementById("preference-list");
+  itemList.appendChild(inputField);
+});
 }
 
