@@ -7,18 +7,35 @@ import {
 
 const SERVER_URL = API_URL + "/mealPlanGenerator";
 
-export async function initMealPlanGenerator() {
-  const aboutValue = document.getElementById('about').value;
-  const mealTypeValue = document.getElementById('mealType').value;// Get the selected value from the dropdown
-  const inputValues =  mealTypeValue + " " + aboutValue;
-  console.log("meatype: " + mealTypeValue)
-  console.log(inputValues)
-  const URL1 = `${SERVER_URL}?mealType=${mealTypeValue}&about=${aboutValue}`;// Include the dropdown value in the "about" parameter
-  const URL = `${SERVER_URL}?about=${inputValues}`;
-  const spinner = document.getElementById('spinner1');
-  const result = document.getElementById('result');
-  result.style.color = "black";
+const itemList = document.getElementById("preference-list");
+const addItemButton = document.getElementById("add-preference");
 
+
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  addItemButton.addEventListener("click", function() {
+      const inputField = document.createElement("input");
+      inputField.type = "text";
+      inputField.placeholder = "Enter preference/allergy";
+
+      itemList.appendChild(inputField);
+    });
+  });
+  
+  
+  export async function initMealPlanGenerator() {
+    const aboutValue = document.getElementById('about').value;
+    const mealTypeValue = document.getElementById('mealType').value;// Get the selected value from the dropdown
+    const inputValues =  mealTypeValue + " " + aboutValue;
+    console.log("meatype: " + mealTypeValue)
+    console.log(inputValues)
+    const URL1 = `${SERVER_URL}?mealType=${mealTypeValue}&about=${aboutValue}`;// Include the dropdown value in the "about" parameter
+    const URL = `${SERVER_URL}?about=${inputValues}`;
+    const spinner = document.getElementById('spinner1');
+    const result = document.getElementById('result');
+    result.style.color = "black";
+    
   try {
     spinner.style.display = "block";
     const response = await fetch(URL).then(handleHttpErrors);
@@ -32,16 +49,3 @@ export async function initMealPlanGenerator() {
   }
 }
 
-
-document.addEventListener("DOMContentLoaded", function() {
-  const itemList = document.getElementById("preference-list");
-  const addItemButton = document.getElementById("add-preference");
-
-  addItemButton.addEventListener("click", function() {
-      const inputField = document.createElement("input");
-      inputField.type = "text";
-      inputField.className = "form-control";
-
-      itemList.appendChild(inputField);
-  });
-});

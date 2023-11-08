@@ -97,7 +97,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
     // Visibility
     logoutContainer.style.display = "block"
     loginContainer.style.display = "none"
-    signupContainer.style.display = "none"
+    //signupContainer.style.display = "none"
 
     /* if(loggedIn) {
       const isAdmin = roles.includes("ADMIN");
