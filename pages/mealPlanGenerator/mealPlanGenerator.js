@@ -35,8 +35,7 @@ export async function initMealPlanGenerator() {
   // Preferences
 
 
-
-  // Goals
+  // Goals  
   
 
 
