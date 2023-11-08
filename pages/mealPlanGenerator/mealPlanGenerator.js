@@ -13,11 +13,12 @@ export async function initMealPlanGenerator() {
   const sexValue = document.getElementById('sex').value;
   const ageValue = document.getElementById('age').value;
   const weightValue = document.getElementById('weight').value;
+  const workoutsPerWeek = document.getElementById('activity-level').value;
 
 
   // meal checklist
-  const mealChecklistDiv = document.getElementById('mealChecklist').value;
-  let selectedMeals = [] 
+  const mealChecklistDiv = document.getElementById('mealChecklistDiv').value;
+  let selectedMeals = [];
 
     
   mealChecklistDiv.addEventListener('change', function() {
@@ -35,11 +36,25 @@ export async function initMealPlanGenerator() {
   // Preferences
 
 
-  // Goals  
+  // Goals
+  const goals = document.getElementById('goals').value;
   
 
+  // Combining all values to create JSON
+  const fullUserInput = {
+    ageValue,
+    sexValue,
+    weightValue,
+    workoutsPerWeek,
+    selectedMeals,
+    goals,
+    //preferences,
+  }
 
-  const URL1 = `${SERVER_URL}?mealType=${mealTypeValue}&about=${aboutValue}`;// Include the dropdown value in the "about" parameter
+  const response = await fetch(SERVER_URL, makeOptions("POST", fullUserInput, true));
+
+  // *** Vi er her
+
   const URL = `${SERVER_URL}?about=${inputValues}`;
   const spinner = document.getElementById('spinner1');
   const result = document.getElementById('result');
@@ -67,5 +82,6 @@ addItemButton.addEventListener("click", function() {
   const itemList = document.getElementById("preference-list");
   itemList.appendChild(inputField);
 });
+
 }
 

@@ -16,13 +16,6 @@
 </head>
 
 <body>
-  <style>
-    #result {
-      font-size: large;
-      font-style: italic;
-      color: darkblue;
-    }
-  </style>
 
   <div class="container">
     <h2 style="color: white">Open AI Demo</h2>
@@ -33,12 +26,13 @@
     <p>The backend for this projects demonstrates 3 ways to use Open AI's Chat Completion API</p>
     <ol>
 
+      <!-- User info -->
       <li>
         <p>User Info</p>
         <div class="input-group">
-          <input type="text" id="age" class="result" placeholder="Enter Age">
-          <input type="text" id="weight" class="result" placeholder="Enter Weight (kg)">
-          <input type="text" id="sex" class="result" placeholder="Enter Sex">
+          <input type="text" id="age" placeholder="Enter Age">
+          <input type="text" id="weight" placeholder="Enter Weight (kg)">
+          <input type="text" id="sex" placeholder="Enter Sex">
 
           <textarea cols="100" rows="3" id="activity-level"
           placeholder="Describe activity level (how often do you work out per week?)"></textarea>
@@ -46,6 +40,7 @@
         </div>
       </li>
 
+      <!-- meal checklist -->
       <li>
         <p>Meal Checklist</p>
         <div class="input-group" id="mealChecklistDiv">
@@ -68,7 +63,7 @@
         </div>
       </li>
 
-          <!-- Preferences -->
+      <!-- Preferences -->
       <li>
         <p>Preferences</p>
           <div id="preference-list">
@@ -79,18 +74,19 @@
       <!-- Goals -->
       <li>
         <p>Goals</p>
-        <div style="margin-top:1em;" class="input-group">
+        <div class="input-group" id="goals">
           <textarea cols="100" rows="5" id="goals"
             placeholder="Your goals (if you have any). For example:
             - I want to lose weight
             - I need to eat 150 g protein a day
             - I need to eat less than 2400 calories"></textarea>
         </div>
-        <p id="result3" class="result"></p>
+
       </li>
     </ol>
   </div>
 
+        <p id="result">Result</p>
 
   <!-- Modal 1 Disclaimer about Deployment -->
   <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
