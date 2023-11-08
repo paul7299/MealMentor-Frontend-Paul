@@ -48,26 +48,27 @@
 
       <li>
         <p>Meal Checklist</p>
-        <div class="input-group">
+        <div class="input-group" id="mealChecklistDiv">
 
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-            <label class="form-check-label" for="flexSwitchCheckDefault">Breakfast</label>
+            <input class="form-check-input" type="checkbox" id="breakfast">
+            <label class="form-check-label" for="breakfast">Breakfast</label>
           </div>
 
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-            <label class="form-check-label" for="flexSwitchCheckChecked">Lunch</label>
+            <input class="form-check-input" type="checkbox" id="lunch">
+            <label class="form-check-label" for="lunch">Lunch</label>
           </div>
 
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked">
-            <label class="form-check-label" for="flexSwitchCheckChecked">Dinner</label>
+            <input class="form-check-input" type="checkbox" id="dinner">
+            <label class="form-check-label" for="dinner">Dinner</label>
           </div>
 
         </div>
       </li>
 
+            <!-- Preferences -->
       <li>
         <p>Preferences</p>
         <div class="container">
@@ -77,22 +78,15 @@
           <button class="btn btn-primary" id="add-preference">Add Item</button>
       </div>   
 
+      <!-- Goals -->
       <li>
-        <div>
-          Demonstrates how to feed own info into the API-request 
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#owninfoModal">
-            How to test this example!
-          </button>
-        </div>
+        <p>Goals</p>
         <div style="margin-top:1em;" class="input-group">
-          <textarea cols="100" rows="3" id="the-question"
-            placeholder="Enter a question related to this semester"></textarea>
-            
-          <button class="btn btn-dark" id="btn-get-answer">Get answer</button>
-          <div id="spinner3" class="spinner-border-lg spinner-border text-success" role="status"
-            style="margin:1em;border-radius: 50%;display:none;width: 3rem; height: 3rem;"">
-          <span class=" visually-hidden">Loading...</span>
-          </div>
+          <textarea cols="100" rows="5" id="goals"
+            placeholder="Your goals (if you have any). For example:
+            - I want to lose weight
+            - I need to eat 150 g protein a day
+            - I need to eat less than 2400 calories"></textarea>
         </div>
         <p id="result3" class="result"></p>
       </li>
@@ -168,6 +162,7 @@ Prøv så at stille en række andre spørgsmål, eksempelvis
   </div>
 
 
+  <h1 style="color:beige"> Herunder blot en kopi af lars kode</h1>
   <p>The backend for this project demonstrates 3 ways to use OpenAI's Chat Completion API</p>
   <ol>
     <li>

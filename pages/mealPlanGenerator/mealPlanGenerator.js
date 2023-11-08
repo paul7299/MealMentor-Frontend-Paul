@@ -8,11 +8,38 @@ import {
 const SERVER_URL = API_URL + "/mealPlanGenerator";
 
 export async function initMealPlanGenerator() {
-  const aboutValue = document.getElementById('about').value;
-  const mealTypeValue = document.getElementById('mealType').value;// Get the selected value from the dropdown
-  const inputValues =  mealTypeValue + " " + aboutValue;
-  console.log("meatype: " + mealTypeValue)
-  console.log(inputValues)
+
+  // user info
+  const sexValue = document.getElementById('sex').value;
+  const ageValue = document.getElementById('age').value;
+  const weightValue = document.getElementById('weight').value;
+
+
+  // meal checklist
+  const mealChecklistDiv = document.getElementById('mealChecklist').value;
+  let selectedMeals = [] 
+
+    
+  mealChecklistDiv.addEventListener('change', function() {
+    var checkboxesList = mealChecklistDiv.querySelectorAll('input[type="checkbox"]')
+
+      // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
+    checkboxesList.foreach((mealType) => {
+      if (mealType.checked) {
+            selectedMeals.push(mealType.value)
+      }
+    })
+  });
+
+
+  // Preferences
+
+
+
+  // Goals
+  
+
+
   const URL1 = `${SERVER_URL}?mealType=${mealTypeValue}&about=${aboutValue}`;// Include the dropdown value in the "about" parameter
   const URL = `${SERVER_URL}?about=${inputValues}`;
   const spinner = document.getElementById('spinner1');
@@ -30,18 +57,22 @@ export async function initMealPlanGenerator() {
   } finally {
     spinner.style.display = "none";
   }
+
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const itemList = document.getElementById("preference-list");
+    const addItemButton = document.getElementById("add-preference");
+  
+    addItemButton.addEventListener("click", function() {
+        const inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.className = "form-control";
+  
+        itemList.appendChild(inputField);
+    });
+  });
+
+
 }
 
 
-document.addEventListener("DOMContentLoaded", function() {
-  const itemList = document.getElementById("preference-list");
-  const addItemButton = document.getElementById("add-preference");
-
-  addItemButton.addEventListener("click", function() {
-      const inputField = document.createElement("input");
-      inputField.type = "text";
-      inputField.className = "form-control";
-
-      itemList.appendChild(inputField);
-  });
-});
