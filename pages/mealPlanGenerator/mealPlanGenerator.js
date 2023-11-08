@@ -50,7 +50,7 @@ export async function initMealPlanGenerator() {
     goals,
     //preferences,
   }
-
+// POST or get?
   const response = await fetch(SERVER_URL, makeOptions("POST", fullUserInput, true));
 
   // *** Vi er her
