@@ -21,7 +21,7 @@ export async function initMealPlanGenerator() {
   const age = document.getElementById('age').value;
   const weight = document.getElementById('weight').value;
   const activityLevel = document.getElementById('activity-level').value;
-  const preferences = ["meat", "meat", "meat", "Plant allergy"];
+ 
 
   // Goals
   const goals = document.getElementById('goalsText').value;
@@ -29,6 +29,9 @@ export async function initMealPlanGenerator() {
   // meal checklist
   const mealChecklistDiv = document.getElementById('mealChecklistDiv');
 
+  // preferences
+  let preferences = [];
+  
 
       // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
       
