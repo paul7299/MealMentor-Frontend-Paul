@@ -30,18 +30,18 @@ export async function initMealPlanGenerator() {
   const mealChecklistDiv = document.getElementById('mealChecklistDiv');
 
   // preferences
-  let preferences = [];
+  let preferences = ["meat", "plant allergy"];
   
 
-      // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
-      
-      var checkboxesList = mealChecklistDiv.querySelectorAll('input[type="checkbox"]')
-      let mealChecklist = [];
-      checkboxesList.forEach((mealType) => {
-        if (mealType.checked) {
-          mealChecklist.push(mealType.value)
-        }
-      })
+    // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
+    
+    var checkboxesList = mealChecklistDiv.querySelectorAll('input[type="checkbox"]')
+    let mealChecklist = [];
+    checkboxesList.forEach((mealType) => {
+      if (mealType.checked) {
+        mealChecklist.push(mealType.value)
+      }
+    })
 
 
   // Combining all values to create JSON
