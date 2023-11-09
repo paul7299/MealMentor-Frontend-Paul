@@ -6,15 +6,6 @@ import {
 } from "../../utils.js";
 
 const SERVER_URL = API_URL + "/mealPlanGenerator";
-
-
-
-
-
-
-
-
-  
   
   export async function initMealPlanGenerator() {
     const aboutValue = document.getElementById('about').value;
@@ -39,16 +30,18 @@ const SERVER_URL = API_URL + "/mealPlanGenerator";
   } finally {
     spinner.style.display = "none";
   }
-  const addItemButton = document.getElementById("add-preference");
 
-addItemButton.addEventListener("click", function() {
-  const inputField = document.createElement("input");
-  inputField.type = "text";
-  inputField.placeholder = "Enter preference/allergy";
+  function addPreference(event) {
+    if (event.target.value.length === 1) {
+      const inputContainer = document.getElementById('input-container');
+      const newInput = document.createElement('input');
+      newInput.type = 'text';
+      newInput.placeholder = 'Enter a preference/allergy';
+      inputContainer.appendChild(newInput);
+      newInput.addEventListener('input', addPreference);
+    }
+  }
   
-  // Add the input field to the itemList or another container.
-  const itemList = document.getElementById("preference-list");
-  itemList.appendChild(inputField);
-});
+  document.getElementById('preference-input').addEventListener('input', addPreference);  
 }
 
