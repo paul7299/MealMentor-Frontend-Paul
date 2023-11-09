@@ -31,6 +31,13 @@ export async function initMealPlanGenerator() {
 
   // preferences
   let preferences = [];
+  const preferenceContainer = document.getElementById('input-container');
+  const preferencesInputs = preferenceContainer.querySelectorAll('input[type="text"]')
+    preferencesInputs.forEach((p) => {
+      if(p.value.trim().length > 0){
+      preferences.push(p.value)
+    }
+    })
   
 
       // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
