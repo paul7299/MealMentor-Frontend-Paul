@@ -24,7 +24,7 @@ export async function initMealPlanGenerator() {
   const preferences = ["meat", "meat", "meat", "Plant allergy"];
 
   // Goals
-  const goals = document.getElementById('goals').value;
+  const goals = document.getElementById('goalsText').value;
 
   // meal checklist
   const mealChecklistDiv = document.getElementById('mealChecklistDiv');
