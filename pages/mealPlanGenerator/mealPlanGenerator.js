@@ -9,49 +9,47 @@ const SERVER_URL = API_URL + "/mealPlanGenerator";
 
 export async function initMealPlanGenerator() {
 
-  // user info
-  const sexValue = document.getElementById('sex').value;
-  const ageValue = document.getElementById('age').value;
-  const weightValue = document.getElementById('weight').value;
-  const workoutsPerWeek = document.getElementById('activity-level').value;
 
 
-  // meal checklist
-  const mealChecklistDiv = document.getElementById('mealChecklistDiv').value;
-
-
-
-  // Preferences
-
-
-  // Goals
-  const goals = document.getElementById('goals').value;
   
 
   document.getElementById("submit-button").addEventListener("click", async function(event) {
     event.preventDefault(); // Prevent the default form submission
 
+      // user info
+  const sex = document.getElementById('sex').value;
+  const age = document.getElementById('age').value;
+  const weight = document.getElementById('weight').value;
+  const activityLevel = document.getElementById('activity-level').value;
+  const preferences = ["meat", "meat", "meat", "Plant allergy"];
+
+  // Goals
+  const goals = document.getElementById('goals').value;
+
+  // meal checklist
+  const mealChecklistDiv = document.getElementById('mealChecklistDiv');
+
 
       // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
       
       var checkboxesList = mealChecklistDiv.querySelectorAll('input[type="checkbox"]')
-      let selectedMeals = [];
+      let mealChecklist = [];
       checkboxesList.forEach((mealType) => {
         if (mealType.checked) {
-              selectedMeals.push(mealType.value)
+          mealChecklist.push(mealType.value)
         }
       })
 
 
   // Combining all values to create JSON
   const fullUserInput = {
-    ageValue,
-    sexValue,
-    weightValue,
-    workoutsPerWeek,
-    selectedMeals,
-    goals
-    //preferences
+    age,
+    sex,
+    weight,
+    activityLevel,
+    mealChecklist,
+    goals,
+    preferences
   }
 
   //
