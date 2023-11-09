@@ -21,7 +21,7 @@ export async function initMealPlanGenerator() {
   let selectedMeals = [];
 
     
-  mealChecklistDiv.addEventListener('change', function() {
+  /*mealChecklistDiv.addEventListener('change', function() {
     var checkboxesList = mealChecklistDiv.querySelectorAll('input[type="checkbox"]')
 
       // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
@@ -30,7 +30,7 @@ export async function initMealPlanGenerator() {
             selectedMeals.push(mealType.value)
       }
     })
-  });
+  });*/
 
 
   // Preferences
@@ -51,11 +51,11 @@ export async function initMealPlanGenerator() {
     //preferences,
   }
 // POST or get?
-  const response = await fetch(SERVER_URL, makeOptions("POST", fullUserInput, true));
+  //const response = await fetch(SERVER_URL, makeOptions("POST", fullUserInput, true));
 
   // *** Vi er her
 
-  const URL = `${SERVER_URL}?about=${inputValues}`;
+  //const URL = `${SERVER_URL}?about=${inputValues}`;
   const spinner = document.getElementById('spinner1');
   const result = document.getElementById('result');
   result.style.color = "black";
