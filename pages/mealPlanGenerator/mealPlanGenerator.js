@@ -18,19 +18,7 @@ export async function initMealPlanGenerator() {
 
   // meal checklist
   const mealChecklistDiv = document.getElementById('mealChecklistDiv').value;
-  let selectedMeals = [];
 
-    
-  /*mealChecklistDiv.addEventListener('change', function() {
-    var checkboxesList = mealChecklistDiv.querySelectorAll('input[type="checkbox"]')
-
-      // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
-    checkboxesList.foreach((mealType) => {
-      if (mealType.checked) {
-            selectedMeals.push(mealType.value)
-      }
-    })
-  });*/
 
 
   // Preferences
@@ -40,6 +28,21 @@ export async function initMealPlanGenerator() {
   const goals = document.getElementById('goals').value;
   
 
+  document.getElementById("submit-button").addEventListener("click", async function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+
+      // itererer igennem checkboxene og lægger dem til selectedMeals hvis de er checked
+      
+      var checkboxesList = mealChecklistDiv.querySelectorAll('input[type="checkbox"]')
+      let selectedMeals = [];
+      checkboxesList.forEach((mealType) => {
+        if (mealType.checked) {
+              selectedMeals.push(mealType.value)
+        }
+      })
+
+
   // Combining all values to create JSON
   const fullUserInput = {
     ageValue,
@@ -47,20 +50,30 @@ export async function initMealPlanGenerator() {
     weightValue,
     workoutsPerWeek,
     selectedMeals,
-    goals,
-    //preferences,
+    goals
+    //preferences
   }
-// POST or get?
-  //const response = await fetch(SERVER_URL, makeOptions("POST", fullUserInput, true));
 
-  // *** Vi er her
+  //
+  const response = await fetch(SERVER_URL, makeOptions("POST", fullUserInput, true));
 
-  //const URL = `${SERVER_URL}?about=${inputValues}`;
-  const spinner = document.getElementById('spinner1');
-  const result = document.getElementById('result');
-  result.style.color = "black";
 
-  try {
+  if (response.ok) {
+    const responseData = await response.json();
+
+    document.getElementById('result').innerText = responseData.answer;
+        alert("Answer from OpenAI received")
+    return responseData;
+
+
+  } else {
+    const errorData = await response.json();
+    throw new Error(errorData.message);
+  }
+
+  //const spinner = document.getElementById('spinner1');
+
+  /*try {
     spinner.style.display = "block";
     const response = await fetch(URL).then(handleHttpErrors);
     document.getElementById('result').innerText = response.answer;
@@ -70,8 +83,9 @@ export async function initMealPlanGenerator() {
     result.innerText = e.message;
   } finally {
     spinner.style.display = "none";
-  }
+  }*/
 
+})
   function addPreference(event) {
     if (event.target.value.length === 1) {
       const inputContainer = document.getElementById('input-container');
