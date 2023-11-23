@@ -5,7 +5,7 @@ import "./navigo_EditedByLars.js"; //Will create the global Navigo, with a few c
 import { setActiveLink, loadHtml, renderHtml } from "./utils.js";
 
 import { initMealPlanGenerator } from "./pages/mealPlanGenerator/mealPlanGenerator.js";
-
+import { initUserSettings } from "./pages/userSettings/userSettings.js";
 
 import { initLogin } from "./pages/login/login.js";
 import { toggleUiBasedOnRoles } from "./pages/login/login.js";
@@ -15,6 +15,8 @@ import { toggleUiBasedOnRoles } from "./pages/login/login.js";
 window.addEventListener("load", async () => {
 
   const templateMealPlanGenerator = await loadHtml("./pages/mealPlanGenerator/mealPlanGenerator.html");
+
+  const templateUserSettings = await loadHtml("./pages/userSettings/userSettings.html");
 
   const templateLogin = await loadHtml("./pages/login/login.html");  
   
@@ -56,6 +58,10 @@ window.addEventListener("load", async () => {
       "/mealPlanGenerator": () => {
         renderHtml(templateMealPlanGenerator, "content");
         initMealPlanGenerator();
+      },
+      "/userSettings": () => {
+        renderHtml(templateUserSettings, "content");
+        initUserSettings();
       },
 
       "/login": () => {
