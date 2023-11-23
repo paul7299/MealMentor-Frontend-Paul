@@ -13,12 +13,14 @@ export async function initUserSettings(){
     submitButton.addEventListener("click", async function (event) {
         const age = document.getElementById("age").value;
         const weight = document.getElementById("weight").value;
+        const height = document.getElementById("height").value;
         const sex = document.getElementById("sex").value;
         const activityLevel = document.getElementById("activity-level").value;
 
         const updatedUser = {
             age: parseInt(age),
             weight: parseInt(weight),
+            height: parseInt(height),
             sex: sex,
             activityLevel: activityLevel
         };
