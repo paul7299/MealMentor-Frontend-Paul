@@ -9,7 +9,6 @@ export async function initLogin() {
     const passwordInput = document.getElementById("password-input")
     
     const token = localStorage.getItem("token")
-    const activityName = localStorage.getItem("activityName")
     
     async function handleHttpErrors(res) {
         if (!res.ok) {
@@ -82,8 +81,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
   
     const loginContainer = document.getElementById("login-container");
     const logoutContainer = document.getElementById("logout-container");
-    const signupContainer = document.getElementById("signup-container");
-    const myReservationsContainer = document.getElementById("myReservations-container");
+    const mealplanContainer = document.getElementById("mealplan-container")
 
     const token = localStorage.getItem("token");
     const roles = localStorage.getItem("roles");
@@ -97,29 +95,21 @@ export function toggleUiBasedOnRoles(loggedIn) {
     // Visibility
     logoutContainer.style.display = "block"
     loginContainer.style.display = "none"
-    //signupContainer.style.display = "none"
-
-    /* if(loggedIn) {
-      const isAdmin = roles.includes("ADMIN");
-      console.log("Is admin", isAdmin)
+    mealplanContainer.style.display = "none"
+     if(loggedIn) {
       
       logoutContainer.style.display = "block"
       loginContainer.style.display = "none"
-      signupContainer.style.display = "none"
+      mealplanContainer.style.display = "block"
     
-      // Evt. admin specifik tilgang
-      if(isAdmin) {
-        
-      }
       
     }
     
       else {
         logoutContainer.style.display = "none"
-        signupContainer.style.display = "block"
         loginContainer.style.display = "block"
-        myReservationsContainer.style.display = "none"
+        mealplanContainer.style.display = "none"
       }
-      */
+      
 
     }
