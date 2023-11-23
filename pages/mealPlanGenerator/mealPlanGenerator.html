@@ -1,112 +1,141 @@
 <div class="template">
-
   <!DOCTYPE html>
-<html lang="en">
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+      />
+      <title>Open AI Demo</title>
+      <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
+      />
+      <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"
+      ></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Open AI Demo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-    crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
+    <body>
+      <div class="container">
+        <h2 style="color: white">Meal Plan Generator</h2>
 
-<body>
+        <ol <!-- User info -->
+          <li>
+            <p>User Info</p>
+            <div class="input-group">
+              <input type="text" id="age" placeholder="Enter Age" />
+              <input type="text" id="weight" placeholder="Enter Weight (kg)" />
+              <input type="text" id="sex" placeholder="Enter Sex" />
 
-  <div class="container">
-    <h2 style="color: white">Open AI Demo</h2>
+              <textarea
+                cols="100"
+                rows="3"
+                id="activity-level"
+                placeholder="Describe activity level (how often do you work out per week?)"
+              ></textarea>
+            </div>
+          </li>
+          <!-- meal checklist -->
+          <li>
+            <p>Meal Checklist</p>
+            <div class="input-group" id="mealChecklistDiv">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="breakfast"
+                  value="breakfast"
+                />
+                <label class="form-check-label" for="breakfast"
+                  >Breakfast</label
+                >
+              </div>
 
-     <ol>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="lunch"
+                  value="lunch"
+                />
+                <label class="form-check-label" for="lunch">Lunch</label>
+              </div>
 
-      <!-- User info -->
-      <li>
-        <p>User Info</p>
-        <div class="input-group">
-          <input type="text" id="age" placeholder="Enter Age">
-          <input type="text" id="weight" placeholder="Enter Weight (kg)">
-          <input type="text" id="sex" placeholder="Enter Sex">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="dinner"
+                  value="dinner"
+                />
+                <label class="form-check-label" for="dinner">Dinner</label>
+              </div>
+            </div>
+          </li>
 
-          <textarea cols="100" rows="3" id="activity-level"
-          placeholder="Describe activity level (how often do you work out per week?)"></textarea>
-          
-        </div>
-      </li>
+          <!-- Preferences/Allergies -->
+          <li>
+            <p>Preferences and/or Allergies</p>
+            <p>(Write down things you don't like or are allergic to)</p>
+            <div id="input-container">
+              <input
+                type="text"
+                id="preference-input"
+                placeholder="Enter a preference/allergy"
+              />
+            </div>
+          </li>
 
-      <!-- meal checklist -->
-      <li>
-        <p>Meal Checklist</p>
-        <div class="input-group" id="mealChecklistDiv">
+          <!-- Choose amount of days -->
+          <li>
+            <p>Choose amount of days you want a plan for</p>
+            <div class="input-group">
+              <select id="select-days">
+                <option value="1">1 day</option>
+                <option value="2">2 days</option>
+                <option value="3">3 days</option>
+                <option value="4">4 days</option>
+                <option value="5">5 days</option>
+                <option value="6">6 days</option>
+                <option value="7">7 days</option>
+              </select>
+            </div>
+          </li>
 
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="breakfast" value="breakfast">
-            <label class="form-check-label" for="breakfast">Breakfast</label>
-          </div>
-
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="lunch" value="lunch">
-            <label class="form-check-label" for="lunch">Lunch</label>
-          </div>
-
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="dinner" value="dinner">
-            <label class="form-check-label" for="dinner">Dinner</label>
-          </div>
-
-        </div>
-      </li>
-
-      <!-- Preferences/Allergies -->
-      <li>
-        <p>Preferences and/or Allergies</p>
-        <p>(Write down things you don't like or are allergic to)</p>
-        <div id="input-container">
-          <input type="text" id="preference-input" placeholder="Enter a preference/allergy"/>
-        </div>
-      </li>  
-
-      <!-- Choose amount of days -->
-      <li>
-        <p>Choose amount of days you want a plan for</p>
-        <div class="input-group">
-          <select id="select-days">
-            <option value="1">1 day</option>
-            <option value="2">2 days</option>
-            <option value="3">3 days</option>
-            <option value="4">4 days</option>
-            <option value="5">5 days</option>
-            <option value="6">6 days</option>
-            <option value="7">7 days</option>
-          </select>
-        </div>
-      </li> 
-
-      <!-- Goals -->
-      <li>
-        <p>Goals</p>
-        <div class="input-group" id="goals">
-          <textarea cols="100" rows="5" id="goalsText"
-            placeholder="Your goals (if you have any). For example:
+          <!-- Goals -->
+          <li>
+            <p>Goals</p>
+            <div class="input-group" id="goals">
+              <textarea
+                cols="100"
+                rows="5"
+                id="goalsText"
+                placeholder="Your goals (if you have any). For example:
             - I want to lose weight
             - I need to eat 150 g protein a day
-            - I need to eat less than 2400 calories"></textarea>
-        </div>
+            - I need to eat less than 2400 calories"
+              ></textarea>
+            </div>
+          </li>
+        </ol>
+      </div>
 
-      </li>
-    </ol>
-  </div>
+      <button type="button" id="submit-button">SUBMIT</button>
+      <div id="jsonTable"></div>
 
-  <button type="button" id="submit-button">SUBMIT</button>
 
-        <p id="result">Result</p>
+      <p id="result">Result</p>
 
-  <script src="./javascript.js"></script>
-  <script src="mealPlanGenerator.js"></script>
-</body>
 
-</html>
-
+      <script src="./javascript.js"></script>
+      <script src="mealPlanGenerator.js"></script>
+    </body>
+  </html>
 </div>

@@ -72,12 +72,21 @@ export async function initMealPlanGenerator() {
         const responseData = await response.json();
 
         document.getElementById("result").innerText = responseData.answer;
+        console.log(responseData.answer);
+
+
+        var jsonString = responseData.answer
+        var myJsonObject = JSON.parse(jsonString);
+        
+        document.getElementById('jsonTable').innerHTML = createTable(myJsonObject);
+
         alert("Answer from OpenAI received");
         return responseData;
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message);
       }
+      
 
       //const spinner = document.getElementById('spinner1');
 
@@ -103,6 +112,68 @@ export async function initMealPlanGenerator() {
       newInput.addEventListener("input", addPreference);
     }
   }
+  function createTable(jsonObject) {
+    var table = "<table border='1'>";
+
+    for (var key in jsonObject) {
+        if (jsonObject.hasOwnProperty(key)) {
+            var value = jsonObject[key];
+            table += "<tr><td><b>" + key + "</b></td>";
+
+            if (Array.isArray(value)) {
+                // If the value is an array, iterate through its elements
+                table += "<td>";
+                value.forEach(function (item) {
+                    // If the item is an object, create a nested table
+                    if (typeof item === 'object' && item !== null) {
+                        table += createNestedTable(item);
+                    } else {
+                        // For simple array elements
+                        table += item + "<br>";
+                    }
+                });
+                table += "</td>";
+            } else if (typeof value === 'object') {
+                // If the value is an object, create a nested table
+                table += "<td>" + createNestedTable(value) + "</td>";
+            } else {
+                // For simple key-value pairs
+                table += "<td>" + value + "</td>";
+            }
+            table += "</tr>";
+        }
+    }
+
+    table += "</table>";
+    return table;
+}
+
+function createNestedTable(nestedObject) {
+    var nestedTable = "<table border='1'>";
+
+    for (var key in nestedObject) {
+        if (nestedObject.hasOwnProperty(key)) {
+            var value = nestedObject[key];
+            nestedTable += "<tr><td><b>" + key + "</b></td>";
+
+            if (Array.isArray(value)) {
+                // Handle array elements
+                nestedTable += "<td>" + value.join(", ") + "</td>";
+            } else {
+                // Handle normal elements
+                nestedTable += "<td>" + value + "</td>";
+            }
+
+            nestedTable += "</tr>";
+        }
+    }
+
+    nestedTable += "</table>";
+    return nestedTable;
+}
+
+
+
 
   document
     .getElementById("preference-input")
