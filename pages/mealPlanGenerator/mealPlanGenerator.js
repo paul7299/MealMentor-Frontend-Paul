@@ -86,6 +86,8 @@ export async function initMealPlanGenerator() {
         document.getElementById("submit-button").style.display = "block";
         return responseData;
       } else {
+        document.getElementById("wait-button").style.display = "none";
+        document.getElementById("submit-button").style.display = "block";
         const errorData = await response.json();
         throw new Error(errorData.message);
       }
