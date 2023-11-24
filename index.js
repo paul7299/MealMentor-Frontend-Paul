@@ -10,18 +10,18 @@ import { initUserSettings } from "./pages/userSettings/userSettings.js";
 import { initLogin } from "./pages/login/login.js";
 import { toggleUiBasedOnRoles } from "./pages/login/login.js";
 
-
-
 window.addEventListener("load", async () => {
+  const templateMealPlanGenerator = await loadHtml(
+    "./pages/mealPlanGenerator/mealPlanGenerator.html"
+  );
 
-  const templateMealPlanGenerator = await loadHtml("./pages/mealPlanGenerator/mealPlanGenerator.html");
+  const templateUserSettings = await loadHtml(
+    "./pages/userSettings/userSettings.html"
+  );
 
-  const templateUserSettings = await loadHtml("./pages/userSettings/userSettings.html");
+  const templateLogin = await loadHtml("./pages/login/login.html");
 
-  const templateLogin = await loadHtml("./pages/login/login.html");  
-  
   const templateNotFound = await loadHtml("./pages/notFound/notFound.html");
-
 
   //If token existed, for example after a refresh, set UI accordingly
   const token = localStorage.getItem("token");
@@ -39,7 +39,7 @@ window.addEventListener("load", async () => {
       before(done, match) {
         setActiveLink("menu", match.url);
         done();
-        isLoggedIn()
+        isLoggedIn();
       },
     })
     .on({
@@ -48,19 +48,18 @@ window.addEventListener("load", async () => {
         (document.getElementById("content").innerHTML = `
         <div class="container" style="width: 80%">
         <h1>Meal Plan Generator</h1>
-        <p>About</p>
-
-
-        <img style="width: 100px" src="images/MealMentorLogo.png" />
-      </div>
-
+        <br>
+        <p>Velkommen til applikationen, der bruger AI til at generere opskrifter ud fra dine behov. 
+        Du kan indtaste din vægt, højde, køn, allergier og fortælle hvis du har et mål som f.eks. at tabe dig. 
+        Derefter kan AI'en tilpasse opskrifterne ud fra dette, hvor du derefter kan gemme opskrifterne på din bruger.</p>
+        </div>
      `),
       "/mealPlanGenerator": () => {
-        renderHtml(templateMealPlanGenerator, "content");
+        handleProtectedRoute(templateMealPlanGenerator, "/mealPlanGenerator");
         initMealPlanGenerator();
       },
       "/userSettings": () => {
-        renderHtml(templateUserSettings, "content");
+        handleProtectedRoute(templateUserSettings, "/userSettings");
         initUserSettings();
       },
 
@@ -70,9 +69,8 @@ window.addEventListener("load", async () => {
       },
       "/logout": () => {
         logout();
-        alert("You are now logged out")
+        alert("You are now logged out");
       },
-  
     })
     .notFound(() => {
       renderHtml(templateNotFound, "content");
@@ -95,19 +93,33 @@ window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
   );
 };
 
-function logout(){
-  localStorage.removeItem("token")
-  localStorage.removeItem("user")
-  localStorage.removeItem("roles")
+function logout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+  localStorage.removeItem("roles");
   toggleUiBasedOnRoles(false);
 }
 
 function isLoggedIn() {
   const token = localStorage.getItem("token");
   if (token == null) {
-    toggleUiBasedOnRoles(false)
-  }
-  else {
+    toggleUiBasedOnRoles(false);
+  } else {
     toggleUiBasedOnRoles(true);
   }
 }
+function isUserLoggedIn() {
+  
+  return localStorage.getItem("token") !== null;
+       }
+
+       function handleProtectedRoute(template, route) {
+        if (!isUserLoggedIn()) {
+          // If not logged in, display an alert and redirect to the index page
+          alert("You should be logged in to access this page.");
+          window.location.href = "/";
+        } else {
+          // If logged in, render the protected page
+          renderHtml(template, "content");
+        }
+      }
