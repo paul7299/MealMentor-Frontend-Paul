@@ -64,7 +64,6 @@ export async function initLogin() {
         localStorage.setItem("token", res.token)
         localStorage.setItem("user", res.username)
         localStorage.setItem("roles", res.roles)
-        localStorage.setItem("activityName", res.activityName)
 
         toggleUiBasedOnRoles(true);
     }
@@ -81,15 +80,15 @@ export function toggleUiBasedOnRoles(loggedIn) {
   
     const loginContainer = document.getElementById("login-container");
     const logoutContainer = document.getElementById("logout-container");
-    const mealplanContainer = document.getElementById("mealplan-container")
+    const mealplanContainer = document.getElementById("mealplan-container");
+    const userSettingsContainer = document.getElementById("userSettings-container");
 
     const token = localStorage.getItem("token");
     const roles = localStorage.getItem("roles");
 
-    const activityName = localStorage.getItem("activityName")
-    console.log("Roles: ", roles)
+
+   // console.log("Roles: ", roles)
     console.log("token: ", token)
-    console.log("activityName: ", activityName)
     
 
     // Visibility
@@ -101,6 +100,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
       logoutContainer.style.display = "block"
       loginContainer.style.display = "none"
       mealplanContainer.style.display = "block"
+      userSettingsContainer.style.display = "block"
     
       
     }
@@ -109,6 +109,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
         logoutContainer.style.display = "none"
         loginContainer.style.display = "block"
         mealplanContainer.style.display = "none"
+        userSettingsContainer.style.display = "none"
       }
       
 

@@ -2,7 +2,7 @@
 import "./navigo_EditedByLars.js"; //Will create the global Navigo, with a few changes, object used below
 //import "./navigo.min.js"  //Will create the global Navigo object used below
 
-import { setActiveLink, loadHtml, renderHtml } from "./utils.js";
+import { setActiveLink, loadHtml, renderHtml, } from "./utils.js";
 
 import { initMealPlanGenerator } from "./pages/mealPlanGenerator/mealPlanGenerator.js";
 import { initUserSettings } from "./pages/userSettings/userSettings.js";
