@@ -56,11 +56,11 @@ window.addEventListener("load", async () => {
 
      `),
       "/mealPlanGenerator": () => {
-        renderHtml(templateMealPlanGenerator, "content");
+        handleProtectedRoute(templateMealPlanGenerator, "/mealPlanGenerator");
         initMealPlanGenerator();
       },
       "/userSettings": () => {
-        renderHtml(templateUserSettings, "content");
+        handleProtectedRoute(templateUserSettings, "/userSettings");
         initUserSettings();
       },
 
@@ -111,3 +111,18 @@ function isLoggedIn() {
     toggleUiBasedOnRoles(true);
   }
 }
+function isUserLoggedIn() {
+  
+  return localStorage.getItem("token") !== null;
+       }
+
+       function handleProtectedRoute(template, route) {
+        if (!isUserLoggedIn()) {
+          // If not logged in, display an alert and redirect to the index page
+          alert("You should be logged in to access this page.");
+          window.location.href = "/";
+        } else {
+          // If logged in, render the protected page
+          renderHtml(template, "content");
+        }
+      }
