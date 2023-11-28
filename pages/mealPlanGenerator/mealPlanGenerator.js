@@ -54,8 +54,12 @@ export async function initMealPlanGenerator() {
       //Amount of days
       const amountOfDays = document.getElementById("select-days").value;
 
+      const username = localStorage.getItem("user")
+      console.log(username)
+
       // Combining all values to create JSON
       const fullUserInput = {
+        username,
         age,
         sex,
         weight,
