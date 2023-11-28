@@ -17,6 +17,7 @@ export async function initUserSettings(){
 if (response.status === 200) {
   const user = await response.json();
   const title = document.getElementById("title");
+  const credits = document.getElementById("credits");
   const age = document.getElementById("age");
   const weight = document.getElementById("weight");
   const height = document.getElementById("height");
@@ -25,6 +26,8 @@ if (response.status === 200) {
   const goals = document.getElementById("goals");
 
   title.innerHTML = "Hello " + user.username;
+  
+  credits.innerText = user.credits;
 
   age.value = user.age;
   weight.value = user.weight;
