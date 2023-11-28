@@ -8,7 +8,7 @@ import { initMealPlanGenerator } from "./pages/mealPlanGenerator/mealPlanGenerat
 import { initUserSettings } from "./pages/userSettings/userSettings.js";
 
 import { initLogin } from "./pages/login/login.js";
-import { toggleUiBasedOnRoles } from "./pages/login/login.js";
+import { toggleUiBasedOnRoles, isUserLoggedIn, logout } from "./pages/login/login.js";
 
 
 
@@ -38,8 +38,9 @@ window.addEventListener("load", async () => {
     .hooks({
       before(done, match) {
         setActiveLink("menu", match.url);
+        isLoggedIn();
         done();
-        isLoggedIn()
+        
       },
     })
     .on({
@@ -95,26 +96,16 @@ window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
   );
 };
 
-function logout(){
-  localStorage.removeItem("token")
-  localStorage.removeItem("user")
-  localStorage.removeItem("roles")
-  toggleUiBasedOnRoles(false);
-}
+
 
 function isLoggedIn() {
-  const token = localStorage.getItem("token");
-  if (token == null) {
-    toggleUiBasedOnRoles(false)
-  }
-  else {
+  if (isUserLoggedIn()) {  
     toggleUiBasedOnRoles(true);
+  } else {
+    toggleUiBasedOnRoles(false);
   }
 }
-function isUserLoggedIn() {
-  
-  return localStorage.getItem("token") !== null;
-       }
+
 
        function handleProtectedRoute(template) {
         if (!isUserLoggedIn()) {
