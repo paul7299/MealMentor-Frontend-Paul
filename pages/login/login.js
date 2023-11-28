@@ -1,6 +1,6 @@
 import { API_URL } from "../../settings.js"
 //const API_URL = "http://localhost:8080/api/"
-let tokenWhenLoggedIn = ""
+let tokenWhenLoggedIn = localStorage.getItem("token") || ""
 export async function initLogin() {
     document.getElementById("login-btn").onclick = login;
     document.getElementById("login-message").innerText = ""
@@ -62,9 +62,9 @@ export async function initLogin() {
     */
     function storeLoginDetails(res) {
         localStorage.setItem("token", res.token)
-        let currentToken = localStorage.getItem("token")
         localStorage.setItem("user", res.username)
         localStorage.setItem("roles", res.roles)
+        tokenWhenLoggedIn = res.token;
         toggleUiBasedOnRoles(true);
        
     } 
