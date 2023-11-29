@@ -32,21 +32,26 @@
       <div class="template">
         
         <div class="container">
-          <h1>Hello (Insert name)</h1>
+
+          <h1 id="title"></h1>
+          
+          <p class="text-end">Credits: 
+            <span class="badge bg-secondary" id="credits">New</span>
+          </p>
+          
           <label for="age" style="color: white;">Age</label>
-          <input type="text" id="age" placeholder="Enter Age">
+          <input type="text" id="age">
           
           <label for="weight" style="color: white;">Weight</label>
-          <input type="text" id="weight" placeholder="Enter Weight">
+          <input type="text" id="weight">
 
           <label for="height" style="color: white;">Height</label>
-          <input type="text" id="height" placeholder="Enter Height">
+          <input type="text" id="height">
 
-          <div id="allergy-container">
           <label for="allergies" style="color: white">Allergies</label>
-          <input type="text" id="allergy-input" placeholder="Enter Allergies">
+          <div id="allergy-container">
+          <input type="text" id="allergy-input">
           </div>
-
 
           <label for="activity-level" style="color: white;">Activity Level</label>
           <select id="activity-level" style=" margin-bottom: 25px;">
@@ -54,10 +59,12 @@
             <option>Medium</option>
             <option>High</option>
           </select>
-        </div>
+
+          <label for="goals" style="color: white;">Goals</label>
+          <textarea cols="100" rows="5" id="goals"></textarea>
+        </divZ>
         
         <button type="submit" id="submit-button">Save Changes</button>
-        
       </div>
     </body>
 </html>

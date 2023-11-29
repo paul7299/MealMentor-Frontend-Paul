@@ -54,8 +54,12 @@ export async function initMealPlanGenerator() {
       //Amount of days
       const amountOfDays = document.getElementById("select-days").value;
 
+      const username = localStorage.getItem("user");
+      console.log(username);
+
       // Combining all values to create JSON
       const fullUserInput = {
+        username,
         age,
         sex,
         weight,
@@ -77,28 +81,12 @@ export async function initMealPlanGenerator() {
 
         var jsonString = responseData.answer;
         var myJsonObject = JSON.parse(jsonString);
-        
-        for(const key in myJsonObject){
-          if(Object.hasOwnProperty(key)){
-            console.log(`${key} : ${myJsonObject[key]}`)
-          }
-        }
-        
-        var jsonTable = document.getElementById("jsonTable");
-        jsonTable.innerHTML = createTable(myJsonObject);
-        
-        var breakfast;
-        var lunch;
-        var dinner;
+        document.getElementById("jsonTable").innerHTML =
+        createTable(myJsonObject);
 
-        // Add event listener to a parent element ----------------------
-        jsonTable.addEventListener("click", function (event) {
-          // Check if the clicked element has the "editBtn" class
-          if (event.target.classList.contains("editBtn")) {
-            // Perform your desired action here
-            saveMeal(event.target);
-          }
-        });
+        if (myJsonObject.hasOwnProperty('Breakfast')) {
+          console.log(myJsonObject['Breakfast']); // Logs the 'Breakfast' object
+      }    
 
         //alert("Answer from OpenAI received");
 
@@ -110,8 +98,14 @@ export async function initMealPlanGenerator() {
         document.getElementById("wait-button").style.display = "none";
         document.getElementById("submit-button").style.display = "block";
         const errorData = await response.json();
+
+        document.getElementById("result").innerText =
+        "* ERROR *";
+
         throw new Error(errorData.message);
       }
+
+      
     });
   function addPreference(event) {
     if (event.target.value.length === 1) {
@@ -123,69 +117,43 @@ export async function initMealPlanGenerator() {
       newInput.addEventListener("input", addPreference);
     }
   }
-  function createTable(jsonObject) {
+
+  function createTable(JSONObject) {
     var table = "<table border='1'>";
 
-    for (var key in jsonObject) {
-      if (jsonObject.hasOwnProperty(key)) {
-        var value = jsonObject[key];
-        table += "<tr><td><b>" + key + "</b></td>";
+    for (var key in JSONObject) {
+        if (JSONObject.hasOwnProperty(key)) {
+            var value = JSONObject[key];
+            table += "<tr><td><b>" + key + "</b></td>";
 
-        if (Array.isArray(value)) {
-          // If the value is an array, iterate through its elements
-          table += "<td>";
-
-          value.forEach(function (item) {
-            // If the item is an object, create a nested table
-            if (typeof item === "object" && item !== null) {
-              table += createNestedTable(item);
+            if (Array.isArray(value)) {
+                // Handle array elements
+                table += "<td>";
+                value.forEach(function (item) {
+                    if (typeof item === "object" && item !== null) {
+                        // Recursive call for nested objects in array
+                        table += createTable(item) + "<br>";
+                    } else {
+                        table += item + "<br>";
+                    }
+                });
+                table += "</td>";
+            } else if (typeof value === "object" && value !== null) {
+                // Recursive call for nested objects
+                table += "<td>" + createTable(value) + "</td>";
             } else {
-              // For simple array elements
-              table += item + "<br>";
+                // Handle normal elements
+                table += "<td>" + value + "</td>";
             }
-          });
-          table += "</td>";
-        } else if (typeof value === "object") {
-          // If the value is an object, create a nested table
-          table += "<td>" + createNestedTable(value) + "</td>";
-        } else {
-          // For simple key-value pairs
-          table += "<td>" + value + "</td>";
+
+            table += "</tr>";
         }
-        table += "</tr>";
-      }
     }
 
     table += "</table>";
     return table;
-  }
+}
 
-  function createNestedTable(nestedObject) {
-    var nestedTable = "<table border='1'>";
-
-    var btnClass = "<button type=  button class= 'editBtn' >Save meal</button>";
-    nestedTable += "<tr><td><b>" + btnClass + "</b></td>";
-
-    for (var key in nestedObject) {
-      if (nestedObject.hasOwnProperty(key)) {
-        var value = nestedObject[key];
-        nestedTable += "<tr><td><b>" + key + "</b></td>";
-
-        if (Array.isArray(value)) {
-          // Handle array elements
-          nestedTable += "<td>" + value.join(", ") + "</td>";
-        } else {
-          // Handle normal elements
-          nestedTable += "<td>" + value + "</td>";
-        }
-
-        nestedTable += "</tr>";
-      }
-    }
-
-    nestedTable += "</table>";
-    return nestedTable;
-  }
 
   document
     .getElementById("preference-input")
