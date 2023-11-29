@@ -77,13 +77,34 @@ export async function initMealPlanGenerator() {
 
         var jsonString = responseData.answer;
         var myJsonObject = JSON.parse(jsonString);
-        document.getElementById("jsonTable").innerHTML =
-          createTable(myJsonObject);
+        
+        for(const key in myJsonObject){
+          if(Object.hasOwnProperty(key)){
+            console.log(`${key} : ${myJsonObject[key]}`)
+          }
+        }
+        
+        var jsonTable = document.getElementById("jsonTable");
+        jsonTable.innerHTML = createTable(myJsonObject);
+        
+        var breakfast;
+        var lunch;
+        var dinner;
+
+        // Add event listener to a parent element ----------------------
+        jsonTable.addEventListener("click", function (event) {
+          // Check if the clicked element has the "editBtn" class
+          if (event.target.classList.contains("editBtn")) {
+            // Perform your desired action here
+            saveMeal(event.target);
+          }
+        });
 
         //alert("Answer from OpenAI received");
 
         document.getElementById("wait-button").style.display = "none";
         document.getElementById("submit-button").style.display = "block";
+
         return responseData;
       } else {
         document.getElementById("wait-button").style.display = "none";
@@ -113,6 +134,7 @@ export async function initMealPlanGenerator() {
         if (Array.isArray(value)) {
           // If the value is an array, iterate through its elements
           table += "<td>";
+
           value.forEach(function (item) {
             // If the item is an object, create a nested table
             if (typeof item === "object" && item !== null) {
@@ -140,6 +162,9 @@ export async function initMealPlanGenerator() {
 
   function createNestedTable(nestedObject) {
     var nestedTable = "<table border='1'>";
+
+    var btnClass = "<button type=  button class= 'editBtn' >Save meal</button>";
+    nestedTable += "<tr><td><b>" + btnClass + "</b></td>";
 
     for (var key in nestedObject) {
       if (nestedObject.hasOwnProperty(key)) {
