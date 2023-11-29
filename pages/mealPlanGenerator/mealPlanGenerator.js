@@ -82,7 +82,11 @@ export async function initMealPlanGenerator() {
         var jsonString = responseData.answer;
         var myJsonObject = JSON.parse(jsonString);
         document.getElementById("jsonTable").innerHTML =
-          createTable(myJsonObject);
+        createTable(myJsonObject);
+
+        if (myJsonObject.hasOwnProperty('Breakfast')) {
+          console.log(myJsonObject['Breakfast']); // Logs the 'Breakfast' object
+      }    
 
         //alert("Answer from OpenAI received");
 
@@ -112,65 +116,43 @@ export async function initMealPlanGenerator() {
       newInput.addEventListener("input", addPreference);
     }
   }
-  function createTable(jsonObject) {
+
+  function createTable(JSONObject) {
     var table = "<table border='1'>";
 
-    for (var key in jsonObject) {
-      if (jsonObject.hasOwnProperty(key)) {
-        var value = jsonObject[key];
-        table += "<tr><td><b>" + key + "</b></td>";
+    for (var key in JSONObject) {
+        if (JSONObject.hasOwnProperty(key)) {
+            var value = JSONObject[key];
+            table += "<tr><td><b>" + key + "</b></td>";
 
-        if (Array.isArray(value)) {
-          // If the value is an array, iterate through its elements
-          table += "<td>";
-          value.forEach(function (item) {
-            // If the item is an object, create a nested table
-            if (typeof item === "object" && item !== null) {
-              table += createNestedTable(item);
+            if (Array.isArray(value)) {
+                // Handle array elements
+                table += "<td>";
+                value.forEach(function (item) {
+                    if (typeof item === "object" && item !== null) {
+                        // Recursive call for nested objects in array
+                        table += createTable(item) + "<br>";
+                    } else {
+                        table += item + "<br>";
+                    }
+                });
+                table += "</td>";
+            } else if (typeof value === "object" && value !== null) {
+                // Recursive call for nested objects
+                table += "<td>" + createTable(value) + "</td>";
             } else {
-              // For simple array elements
-              table += item + "<br>";
+                // Handle normal elements
+                table += "<td>" + value + "</td>";
             }
-          });
-          table += "</td>";
-        } else if (typeof value === "object") {
-          // If the value is an object, create a nested table
-          table += "<td>" + createNestedTable(value) + "</td>";
-        } else {
-          // For simple key-value pairs
-          table += "<td>" + value + "</td>";
+
+            table += "</tr>";
         }
-        table += "</tr>";
-      }
     }
 
     table += "</table>";
     return table;
-  }
+}
 
-  function createNestedTable(nestedObject) {
-    var nestedTable = "<table border='1'>";
-
-    for (var key in nestedObject) {
-      if (nestedObject.hasOwnProperty(key)) {
-        var value = nestedObject[key];
-        nestedTable += "<tr><td><b>" + key + "</b></td>";
-
-        if (Array.isArray(value)) {
-          // Handle array elements
-          nestedTable += "<td>" + value.join(", ") + "</td>";
-        } else {
-          // Handle normal elements
-          nestedTable += "<td>" + value + "</td>";
-        }
-
-        nestedTable += "</tr>";
-      }
-    }
-
-    nestedTable += "</table>";
-    return nestedTable;
-  }
 
   document
     .getElementById("preference-input")
