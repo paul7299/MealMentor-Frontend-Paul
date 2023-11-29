@@ -1,14 +1,13 @@
 import { API_URL } from "../../settings.js"
 //const API_URL = "http://localhost:8080/api/"
-
+let tokenWhenLoggedIn = localStorage.getItem("token") || ""
 export async function initLogin() {
     document.getElementById("login-btn").onclick = login;
     document.getElementById("login-message").innerText = ""
     
     const usernameInput = document.getElementById("username-input")
     const passwordInput = document.getElementById("password-input")
-    
-    const token = localStorage.getItem("token")
+
     
     async function handleHttpErrors(res) {
         if (!res.ok) {
@@ -45,6 +44,7 @@ export async function initLogin() {
         }
 
         if (localStorage.getItem("token") !== null) {
+            tokenWhenLoggedIn = localStorage.getItem("token");
             // @ts-ignore
             usernameInput.value = ""
             // @ts-ignore
@@ -64,16 +64,19 @@ export async function initLogin() {
         localStorage.setItem("token", res.token)
         localStorage.setItem("user", res.username)
         localStorage.setItem("roles", res.roles)
-
+        tokenWhenLoggedIn = res.token;
         toggleUiBasedOnRoles(true);
-    }
-     function logout() {
-        localStorage.removeItem("token")
-        localStorage.removeItem("user")
-        localStorage.removeItem("roles")
-        toggleUiBasedOnRoles(false)
-      }
+       
+    } 
+     
 }
+export function logout() {
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    localStorage.removeItem("roles")
+    tokenWhenLoggedIn = "";
+    toggleUiBasedOnRoles(false)
+  }
 
 
 export function toggleUiBasedOnRoles(loggedIn) {
@@ -84,11 +87,12 @@ export function toggleUiBasedOnRoles(loggedIn) {
     const userSettingsContainer = document.getElementById("userSettings-container");
 
     const token = localStorage.getItem("token");
-    const roles = localStorage.getItem("roles");
+
 
 
    // console.log("Roles: ", roles)
-    console.log("token: ", token)
+    console.log("current token: ", token)
+    console.log("logged in token:", tokenWhenLoggedIn)
     
 
     // Visibility
@@ -104,6 +108,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
     
       
     }
+
     
       else {
         logoutContainer.style.display = "none"
@@ -114,3 +119,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
       
 
     }
+    export function isUserLoggedIn() {
+        const currentToken = localStorage.getItem("token");
+        return currentToken == tokenWhenLoggedIn && tokenWhenLoggedIn !== null
+          }
