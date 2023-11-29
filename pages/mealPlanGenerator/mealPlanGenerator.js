@@ -54,8 +54,8 @@ export async function initMealPlanGenerator() {
       //Amount of days
       const amountOfDays = document.getElementById("select-days").value;
 
-      const username = localStorage.getItem("user")
-      console.log(username)
+      const username = localStorage.getItem("user");
+      console.log(username);
 
       // Combining all values to create JSON
       const fullUserInput = {
@@ -93,8 +93,14 @@ export async function initMealPlanGenerator() {
         document.getElementById("wait-button").style.display = "none";
         document.getElementById("submit-button").style.display = "block";
         const errorData = await response.json();
+
+        document.getElementById("result").innerText =
+        "* ERROR *";
+
         throw new Error(errorData.message);
       }
+
+      
     });
   function addPreference(event) {
     if (event.target.value.length === 1) {
