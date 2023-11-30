@@ -1,7 +1,6 @@
 import { API_URL } from "../../settings.js";
 //const API_URL = "http://localhost:8080/api/"
 let tokenFromBackEnd = "";
-toggleUiBasedOnRoles();
 export async function initLogin() {
   //document.getElementById("login-btn").onclick = login;
 
