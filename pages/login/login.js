@@ -1,11 +1,11 @@
 import { API_URL } from "../../settings.js";
 //const API_URL = "http://localhost:8080/api/"
-let tokenFromBackEnd;
-
+let tokenFromBackEnd = "";
+toggleUiBasedOnRoles();
 export async function initLogin() {
-  document.getElementById("login-btn").onclick = login;
+  //document.getElementById("login-btn").onclick = login;
 
-  document.getElementById("login-message").innerText = "";
+  document.getElementById("login-btn").addEventListener("click", loginHandler)
 
   const usernameInput = document.getElementById("username-input");
   const passwordInput = document.getElementById("password-input");
@@ -29,8 +29,7 @@ export async function initLogin() {
 
   async function loginMessageSuccesful() {
     appendAlert(
-      "You logged successfully in to " + localStorage.getItem("user"), "success"
-    );
+      "You logged successfully in to " + localStorage.getItem("user"), "success");
   }
 
   async function loginMessageUnsuccesful() {
@@ -38,10 +37,7 @@ export async function initLogin() {
   }
 
   async function alreadyLoggedIn() {
-    appendAlert(
-      "You are already logged in as " + localStorage.getItem("user"),
-      "success"
-    );
+    appendAlert("You are already logged in as " + localStorage.getItem("user"), "warning");
   }
 
 
@@ -54,6 +50,20 @@ export async function initLogin() {
       throw error;
     }
     return res.json();
+  }
+
+
+  async function loginHandler(evt){
+
+    if (isUserLoggedIn()) {
+
+        console.log("*** ALREADY LOGGED IN ***")
+        alreadyLoggedIn();
+
+    } else {
+        login(evt);
+    }
+
   }
 
   async function login(evt) {
@@ -72,10 +82,6 @@ export async function initLogin() {
       body: JSON.stringify(loginRequest),
     };
 
-    if (isUserLoggedIn) {
-
-        alreadyLoggedIn();
-
     try {
       const response = await fetch(API_URL + "/auth/login", options).then(
         handleHttpErrors
@@ -84,6 +90,7 @@ export async function initLogin() {
 
     if (localStorage.getItem("token") === response.token) {
 
+        //TODO følgende kode burde slettes?
       // @ts-ignore
       usernameInput.value = "";
       // @ts-ignore
@@ -91,23 +98,18 @@ export async function initLogin() {
 
       loginMessageSuccesful();
 
-    } else if (localStorage.getItem("token") !== response.token){
-
-      loginMessageUnsuccesful();
-
     }
 
     } catch (error) {
+
+        console.log("** Nu er UnsuccessfulLoginMessage her inde **")
+
+      loginMessageUnsuccesful();
+
       console.log(error);
     }
 
-    }
-
-
-
-
-    // TODO hvis man prøver at logge ind men allerede er logget ind
-
+    
 
   }
 
@@ -120,7 +122,7 @@ export async function initLogin() {
     localStorage.setItem("user", res.username);
     localStorage.setItem("roles", res.roles);
     tokenFromBackEnd = res.token;
-    toggleUiBasedOnRoles(true);
+    toggleUiBasedOnRoles();
   }
 }
 export function logout() {
@@ -128,17 +130,15 @@ export function logout() {
   localStorage.removeItem("user");
   localStorage.removeItem("roles");
   tokenFromBackEnd = "";
-  toggleUiBasedOnRoles(false);
+  toggleUiBasedOnRoles();
 }
 
-export function toggleUiBasedOnRoles(loggedIn) {
+export function toggleUiBasedOnRoles() {
   const loginContainer = document.getElementById("login-container");
   const logoutContainer = document.getElementById("logout-container");
 
   const mealplanContainer = document.getElementById("mealplan-container");
-  const userSettingsContainer = document.getElementById(
-    "userSettings-container"
-  );
+  const userSettingsContainer = document.getElementById("userSettings-container");
 
   // console.log("Roles: ", roles)
   console.log("Local token: ", localStorage.getItem("token"));
@@ -148,8 +148,12 @@ export function toggleUiBasedOnRoles(loggedIn) {
   logoutContainer.style.display = "block";
   loginContainer.style.display = "none";
   mealplanContainer.style.display = "none";
+  
 
-  if (loggedIn) {
+  if (isUserLoggedIn()) {
+
+    console.log("user is logged in: " + isUserLoggedIn(), " from inside if")
+
     logoutContainer.style.display = "block";
     loginContainer.style.display = "none";
 
@@ -161,6 +165,9 @@ export function toggleUiBasedOnRoles(loggedIn) {
     userSettingsContainer.style.display = "block";
 
   } else {
+
+    console.log("user is logged in: " + isUserLoggedIn(), " from inside else")
+
     logoutContainer.style.display = "none";
     loginContainer.style.display = "block";
     mealplanContainer.style.display = "none";
@@ -169,5 +176,6 @@ export function toggleUiBasedOnRoles(loggedIn) {
 }
 
 export function isUserLoggedIn() {
-  return localStorage.getItem("token") == tokenFromBackEnd && tokenFromBackEnd !== null;
+
+  return localStorage.getItem("token") == tokenFromBackEnd && (tokenFromBackEnd !== null);
 }
