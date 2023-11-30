@@ -83,6 +83,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
   
     const loginContainer = document.getElementById("login-container");
     const logoutContainer = document.getElementById("logout-container");
+
     const mealplanContainer = document.getElementById("mealplan-container");
     const userSettingsContainer = document.getElementById("userSettings-container");
 
@@ -103,6 +104,9 @@ export function toggleUiBasedOnRoles(loggedIn) {
       
       logoutContainer.style.display = "block"
       loginContainer.style.display = "none"
+
+      document.getElementById("logout-username").innerText = localStorage.getItem("user");
+
       mealplanContainer.style.display = "block"
       userSettingsContainer.style.display = "block"
     
