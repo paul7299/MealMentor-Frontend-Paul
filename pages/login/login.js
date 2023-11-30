@@ -1,6 +1,7 @@
 import { API_URL } from "../../settings.js";
 //const API_URL = "http://localhost:8080/api/"
-let tokenWhenLoggedIn = localStorage.getItem("token") || "";
+let tokenFromBackEnd;
+
 export async function initLogin() {
   document.getElementById("login-btn").onclick = login;
 
@@ -28,14 +29,21 @@ export async function initLogin() {
 
   async function loginMessageSuccesful() {
     appendAlert(
-      "You logged successfully in to " + localStorage.getItem("user"),
-      "success"
+      "You logged successfully in to " + localStorage.getItem("user"), "success"
     );
   }
 
   async function loginMessageUnsuccesful() {
     appendAlert("You have entered the wrong password or username!", "danger");
   }
+
+  async function alreadyLoggedIn() {
+    appendAlert(
+      "You are already logged in as " + localStorage.getItem("user"),
+      "success"
+    );
+  }
+
 
   async function handleHttpErrors(res) {
     if (!res.ok) {
@@ -64,27 +72,43 @@ export async function initLogin() {
       body: JSON.stringify(loginRequest),
     };
 
+    if (isUserLoggedIn) {
+
+        alreadyLoggedIn();
+
     try {
       const response = await fetch(API_URL + "/auth/login", options).then(
         handleHttpErrors
       );
       storeLoginDetails(response);
-    } catch (error) {
-      console.log(error);
-    }
 
-    if (localStorage.getItem("token") !== null) {
-      tokenWhenLoggedIn = localStorage.getItem("token");
+    if (localStorage.getItem("token") === response.token) {
+
       // @ts-ignore
       usernameInput.value = "";
       // @ts-ignore
       passwordInput.value = "";
 
       loginMessageSuccesful();
-      
-    } else {
+
+    } else if (localStorage.getItem("token") !== response.token){
+
       loginMessageUnsuccesful();
+
     }
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    }
+
+
+
+
+    // TODO hvis man prøver at logge ind men allerede er logget ind
+
+
   }
 
   /**
@@ -95,7 +119,7 @@ export async function initLogin() {
     localStorage.setItem("token", res.token);
     localStorage.setItem("user", res.username);
     localStorage.setItem("roles", res.roles);
-    tokenWhenLoggedIn = res.token;
+    tokenFromBackEnd = res.token;
     toggleUiBasedOnRoles(true);
   }
 }
@@ -103,7 +127,7 @@ export function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("user");
   localStorage.removeItem("roles");
-  tokenWhenLoggedIn = "";
+  tokenFromBackEnd = "";
   toggleUiBasedOnRoles(false);
 }
 
@@ -111,17 +135,14 @@ export function toggleUiBasedOnRoles(loggedIn) {
   const loginContainer = document.getElementById("login-container");
   const logoutContainer = document.getElementById("logout-container");
 
-
   const mealplanContainer = document.getElementById("mealplan-container");
   const userSettingsContainer = document.getElementById(
     "userSettings-container"
   );
 
-  const token = localStorage.getItem("token");
-
   // console.log("Roles: ", roles)
-  console.log("current token: ", token);
-  console.log("logged in token:", tokenWhenLoggedIn);
+  console.log("Local token: ", localStorage.getItem("token"));
+  console.log("Token from backend:", tokenFromBackEnd);
 
   // Visibility
   logoutContainer.style.display = "block";
@@ -148,6 +169,5 @@ export function toggleUiBasedOnRoles(loggedIn) {
 }
 
 export function isUserLoggedIn() {
-  const currentToken = localStorage.getItem("token");
-  return currentToken == tokenWhenLoggedIn && tokenWhenLoggedIn !== null;
+  return localStorage.getItem("token") == tokenFromBackEnd && tokenFromBackEnd !== null;
 }
