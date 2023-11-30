@@ -4,12 +4,6 @@ let tokenWhenLoggedIn = localStorage.getItem("token") || "";
 export async function initLogin() {
   document.getElementById("login-btn").onclick = login;
 
-
-  //const loginButton = document.getElementById("login-btn")
-
-  //loginButton.addEventListener("click", login);
-  // loginButton.addEventListener("click", loginMessageSuccesful);
-  
   document.getElementById("login-message").innerText = "";
 
   const usernameInput = document.getElementById("username-input");
@@ -17,7 +11,9 @@ export async function initLogin() {
 
   // Bootstrap kode til login-alert
   // ref: https://getbootstrap.com/docs/5.3/components/alerts/
-  const alertPlaceholder = document.getElementById("live-login-message-placeholder");
+  const alertPlaceholder = document.getElementById(
+    "live-login-message-placeholder"
+  );
   const appendAlert = (message, type) => {
     const wrapper = document.createElement("div");
     wrapper.innerHTML = [
@@ -30,15 +26,16 @@ export async function initLogin() {
     alertPlaceholder.append(wrapper);
   };
 
-
-  async function loginMessageSuccesful(){
-    appendAlert("You logged successfully in to " + localStorage.getItem("user"), "success");
+  async function loginMessageSuccesful() {
+    appendAlert(
+      "You logged successfully in to " + localStorage.getItem("user"),
+      "success"
+    );
   }
 
-  async function loginMessageUnsuccesful(){
+  async function loginMessageUnsuccesful() {
     appendAlert("You have entered the wrong password or username!", "danger");
   }
-
 
   async function handleHttpErrors(res) {
     if (!res.ok) {
@@ -83,8 +80,8 @@ export async function initLogin() {
       // @ts-ignore
       passwordInput.value = "";
 
-        loginMessageSuccesful();
-
+      loginMessageSuccesful();
+      
     } else {
       loginMessageUnsuccesful();
     }
@@ -114,6 +111,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
   const loginContainer = document.getElementById("login-container");
   const logoutContainer = document.getElementById("logout-container");
 
+
   const mealplanContainer = document.getElementById("mealplan-container");
   const userSettingsContainer = document.getElementById(
     "userSettings-container"
@@ -129,15 +127,18 @@ export function toggleUiBasedOnRoles(loggedIn) {
   logoutContainer.style.display = "block";
   loginContainer.style.display = "none";
   mealplanContainer.style.display = "none";
+
   if (loggedIn) {
     logoutContainer.style.display = "block";
     loginContainer.style.display = "none";
 
+    // Element til at vise username ved siden af (logout)
     document.getElementById("logout-username").innerText =
       localStorage.getItem("user");
 
     mealplanContainer.style.display = "block";
     userSettingsContainer.style.display = "block";
+
   } else {
     logoutContainer.style.display = "none";
     loginContainer.style.display = "block";
@@ -145,6 +146,7 @@ export function toggleUiBasedOnRoles(loggedIn) {
     userSettingsContainer.style.display = "none";
   }
 }
+
 export function isUserLoggedIn() {
   const currentToken = localStorage.getItem("token");
   return currentToken == tokenWhenLoggedIn && tokenWhenLoggedIn !== null;
