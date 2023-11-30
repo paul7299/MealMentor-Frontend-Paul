@@ -17,15 +17,6 @@ export async function initMealPlanGenerator() {
       document.getElementById("wait-button").style.display = "block";
       document.getElementById("submit-button").style.display = "none";
 
-      // user info
-      const sex = document.getElementById("sex").value;
-      const age = document.getElementById("age").value;
-      const weight = document.getElementById("weight").value;
-      const activityLevel = document.getElementById("activity-level").value;
-
-      // Goals
-      const goals = document.getElementById("goalsText").value;
-
       // preferences
       let preferences = [];
       const preferenceContainer = document.getElementById("input-container");
@@ -51,23 +42,14 @@ export async function initMealPlanGenerator() {
         }
       });
 
-      //Amount of days
-      const amountOfDays = document.getElementById("select-days").value;
-
       const username = localStorage.getItem("user");
       console.log(username);
 
       // Combining all values to create JSON
       const fullUserInput = {
         username,
-        age,
-        sex,
-        weight,
-        activityLevel,
         mealChecklist,
         preferences,
-        goals,
-        amountOfDays,
       };
 
       //
