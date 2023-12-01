@@ -64,7 +64,7 @@ export async function initMealPlanGenerator() {
         var jsonString = responseData.answer;
         var myJsonObject = JSON.parse(jsonString);
         document.getElementById("jsonTable").innerHTML =
-        createTable(myJsonObject);
+        createAccordion(myJsonObject);
 
         if (myJsonObject.hasOwnProperty('Breakfast')) {
           console.log(myJsonObject['Breakfast']); // Logs the 'Breakfast' object
@@ -100,47 +100,66 @@ export async function initMealPlanGenerator() {
   }
 
   
-  function createTable(JSONObject) {
-    var tables = ""; // Variable to store all tables
-  
+function createAccordion(JSONObject) {
+    var accordionId = "accordionExample"; // A unique ID for the accordion
+    var accordionHtml = `<div class="accordion" id="${accordionId}">`;
+    var itemIndex = 0;
+
     for (var key in JSONObject) {
-      if (JSONObject.hasOwnProperty(key)) {
-        var value = JSONObject[key];
-  
-        // Create a new table for each recipe
-        var table = "<table border='1'>";
-        table += "<tr><td colspan='2'><b>" + key + "</b></td></tr>";
-  
-        if (Array.isArray(value)) {
-          // Handle array elements by concatenating them into a single cell
-          table += "<tr><td colspan='2'>" + value.join(', ') + "</td></tr>";
-        } else if (typeof value === "object" && value !== null) {
-          // Create rows for each detail within the same table
-          for (var detailKey in value) {
-            if (value.hasOwnProperty(detailKey)) {
-              var detailValue = value[detailKey];
-              table += "<tr><td>" + detailKey + "</td><td>" + detailValue + "</td></tr>";
-            }
-          }
-        } else {
-          // Handle normal elements
-          table += "<tr><td colspan='2'>" + value + "</td></tr>";
+        if (JSONObject.hasOwnProperty(key)) {
+            var value = JSONObject[key];
+            var headingId = `heading${itemIndex}`;
+            var collapseId = `collapse${itemIndex}`;
+
+            // Use value.MealType to display the meal type in the accordion button
+            var mealType = value.MealType || 'Unknown'; // Fallback to 'Unknown' if MealType is not present
+
+            accordionHtml += `
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="${headingId}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="true" aria-controls="${collapseId}">
+                            ${mealType}
+                        </button>
+                    </h2>
+                    <div id="${collapseId}" class="accordion-collapse collapse ${itemIndex === 0 ? 'show' : ''}" aria-labelledby="${headingId}" data-bs-parent="#${accordionId}">
+                        <div class="accordion-body">
+                            ${typeof value === "object" && value !== null ? createAccordionContent(value) : value}
+                        </div>
+                    </div>
+                </div>`;
+            itemIndex++;
         }
-  
-        table += "</table>";
-  
-        tables += table;
-      }
     }
-  
-    return tables;
-  }
-  
-  
-  
-  
-  
-  
+
+    accordionHtml += `</div>`;
+    return accordionHtml;
+}
+
+
+function createAccordionContent(obj) {
+    var content = "<ul style=\"color: black\">";
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var value = obj[key];
+            if (Array.isArray(value)) {
+                // Handle array elements
+                content += `<li>${key}: `;
+                value.forEach(function (item, index) {
+                    content += `${item}${index < value.length - 1 ? ', ' : ''}`;
+                });
+                content += "</li>";
+            } else if (typeof value === "object" && value !== null) {
+                // Recursive call for nested objects
+                content += `<li>${key}: ${createAccordionContent(value)}</li>`;
+            } else {
+                // Handle normal elements
+                content += `<li>${key}: ${value}</li>`;
+            }
+        }
+    }
+    content += "</ul>";
+    return content;
+}
 
 
   document
