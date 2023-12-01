@@ -82,7 +82,7 @@ export async function initMealPlanGenerator() {
 
         document.getElementById("result").innerText =
         "* ERROR *";
-
+        alert(errorData.message);
         throw new Error(errorData.message);
       }
 
@@ -93,7 +93,7 @@ export async function initMealPlanGenerator() {
       const inputContainer = document.getElementById("input-container");
       const newInput = document.createElement("input");
       newInput.type = "text";
-      newInput.placeholder = "Enter a preference/allergy";
+      newInput.placeholder = "Enter a preference";
       inputContainer.appendChild(newInput);
       newInput.addEventListener("input", addPreference);
     }
