@@ -99,41 +99,48 @@ export async function initMealPlanGenerator() {
     }
   }
 
+  
   function createTable(JSONObject) {
-    var table = "<table border='1'>";
-
+    var tables = ""; // Variable to store all tables
+  
     for (var key in JSONObject) {
-        if (JSONObject.hasOwnProperty(key)) {
-            var value = JSONObject[key];
-            table += "<tr><td><b>" + key + "</b></td>";
-
-            if (Array.isArray(value)) {
-                // Handle array elements
-                table += "<td>";
-                value.forEach(function (item) {
-                    if (typeof item === "object" && item !== null) {
-                        // Recursive call for nested objects in array
-                        table += createTable(item) + "<br>";
-                    } else {
-                        table += item + "<br>";
-                    }
-                });
-                table += "</td>";
-            } else if (typeof value === "object" && value !== null) {
-                // Recursive call for nested objects
-                table += "<td>" + createTable(value) + "</td>";
-            } else {
-                // Handle normal elements
-                table += "<td>" + value + "</td>";
+      if (JSONObject.hasOwnProperty(key)) {
+        var value = JSONObject[key];
+  
+        // Create a new table for each recipe
+        var table = "<table border='1'>";
+        table += "<tr><td colspan='2'><b>" + key + "</b></td></tr>";
+  
+        if (Array.isArray(value)) {
+          // Handle array elements by concatenating them into a single cell
+          table += "<tr><td colspan='2'>" + value.join(', ') + "</td></tr>";
+        } else if (typeof value === "object" && value !== null) {
+          // Create rows for each detail within the same table
+          for (var detailKey in value) {
+            if (value.hasOwnProperty(detailKey)) {
+              var detailValue = value[detailKey];
+              table += "<tr><td>" + detailKey + "</td><td>" + detailValue + "</td></tr>";
             }
-
-            table += "</tr>";
+          }
+        } else {
+          // Handle normal elements
+          table += "<tr><td colspan='2'>" + value + "</td></tr>";
         }
+  
+        table += "</table>";
+  
+        tables += table;
+      }
     }
-
-    table += "</table>";
-    return table;
-}
+  
+    return tables;
+  }
+  
+  
+  
+  
+  
+  
 
 
   document
