@@ -137,33 +137,45 @@ function createAccordion(JSONObject) {
 }
 
 
+
 function createAccordionContent(obj) {
-    var content = "<ul style=\"color: black\">";
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            var value = obj[key];
-            if (Array.isArray(value)) {
-                // Handle array elements
-                content += `<li>${key}: `;
-                value.forEach(function (item, index) {
-                    content += `${item}${index < value.length - 1 ? ', ' : ''}`;
-                });
-                content += "</li>";
-            } else if (typeof value === "object" && value !== null) {
-                // Recursive call for nested objects
-                content += `<li>${key}: ${createAccordionContent(value)}</li>`;
-            } else {
-                // Handle normal elements
-                content += `<li>${key}: ${value}</li>`;
-            }
-        }
-    }
-    content += "</ul>";
-    return content;
+  var content = "<ul style=\"color: black\">";
+
+  // Create button
+  content += "<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\"> <button type=\"button\" id=\"saveBtn\" class=\"btn btn-danger me-md-2\">Show Object Info</button> </div>";
+
+  for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+          var value = obj[key];
+          if (Array.isArray(value)) {
+              // Handle array elements
+              content += `<li>${key}: `;
+              value.forEach(function (item, index) {
+                  content += `${item}${index < value.length - 1 ? ', ' : ''}`;
+              });
+              content += "</li>";
+          } else if (typeof value === "object" && value !== null) {
+              // Recursive call for nested objects
+              content += `<li>${key}: ${createAccordionContent(value)}</li>`;
+          } else {
+              // Handle normal elements
+              content += `<li>${key}: ${value}</li>`;
+          }
+      }
+  }
+  content += "</ul>";
+
+
+
+  return content;
 }
 
 
+function handleSaveBtnClick(obj){
+  console.log("Works :)" + obj)
+}
+    
   document
-    .getElementById("preference-input")
-    .addEventListener("input", addPreference);
-}
+  .getElementById("preference-input")
+  .addEventListener("input", addPreference);
+  }
