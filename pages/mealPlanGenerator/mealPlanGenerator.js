@@ -109,6 +109,7 @@ function createAccordion(JSONObject) {
     for (var key in JSONObject) {
         if (JSONObject.hasOwnProperty(key)) {
             var value = JSONObject[key];
+            console.log(value.MealType)
             var headingId = `heading${itemIndex}`;
             var collapseId = `collapse${itemIndex}`;
 
@@ -121,6 +122,7 @@ function createAccordion(JSONObject) {
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="true" aria-controls="${collapseId}">
                             ${mealType}
                         </button>
+
                     </h2>
                     <div id="${collapseId}" class="accordion-collapse collapse ${itemIndex === 0 ? 'show' : ''}" aria-labelledby="${headingId}" data-bs-parent="#${accordionId}">
                         <div class="accordion-body">
@@ -142,11 +144,16 @@ function createAccordionContent(obj) {
   var content = "<ul style=\"color: black\">";
 
   // Create button
-  content += "<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\"> <button type=\"button\" id=\"saveBtn\" class=\"btn btn-danger me-md-2\">Show Object Info</button> </div>";
+  //content += "<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\"> <button type=\"button\" id=\"saveBtn\" class=\"btn btn-danger me-md-2\">Show Object Info</button> </div>";
+  // content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end"> <button type="button" class="saveBtn btn btn-danger me-md-2">Show Object Info</button> </div>`;
+  content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end"> <button type="button" class="saveBtn btn btn-danger me-md-2" data-value="${value}">Show Object Info</button> </div>`;
+
 
   for (var key in obj) {
+
       if (obj.hasOwnProperty(key)) {
           var value = obj[key];
+
           if (Array.isArray(value)) {
               // Handle array elements
               content += `<li>${key}: `;
@@ -161,8 +168,19 @@ function createAccordionContent(obj) {
               // Handle normal elements
               content += `<li>${key}: ${value}</li>`;
           }
+
+         
+          
       }
+   
   }
+
+   //BUTTON WORKS but need to find how to get the meal data exactly. 
+   document.body.addEventListener("click", function (event) {
+    if (event.target.classList.contains("saveBtn")) {
+        handleSaveBtnClick(obj.mealType)
+    }
+  });
   content += "</ul>";
 
 
@@ -170,9 +188,17 @@ function createAccordionContent(obj) {
   return content;
 }
 
+/*document.body.addEventListener("click", function (event) {
+  if (event.target.classList.contains("saveBtn")) {
+      alert("Hello World!");
+  }
+});*/
+
+
 
 function handleSaveBtnClick(obj){
   console.log("Works :)" + obj)
+  alert("IT WORKS " + obj)
 }
     
   document
