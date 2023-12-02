@@ -105,6 +105,8 @@ function createAccordion(JSONObject) {
     var accordionHtml = `<div class="accordion" id="${accordionId}">`;
     var itemIndex = 0;
 
+    
+
     for (var key in JSONObject) {
         if (JSONObject.hasOwnProperty(key)) {
             var value = JSONObject[key];
@@ -138,6 +140,10 @@ function createAccordion(JSONObject) {
 
 function createAccordionContent(obj) {
     var content = "<ul style=\"color: black\">";
+
+     // Create button
+  content += "<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\"> <button type=\"button\" id=\"saveBtn\" class=\"btn btn-danger me-md-2\">Show Object Info</button> </div>";
+
     for (var key in obj) {
         if (obj.hasOwnProperty(key)) {
             var value = obj[key];
