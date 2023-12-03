@@ -100,6 +100,7 @@ export async function initMealPlanGenerator() {
     }
   }
 
+  let mealList = []
   
 function createAccordion(JSONObject) {
     var accordionId = "accordionExample"; // A unique ID for the accordion
@@ -110,6 +111,10 @@ function createAccordion(JSONObject) {
         if (JSONObject.hasOwnProperty(key)) {
             var value = JSONObject[key];
             console.log(value.MealType)
+            //You're working here
+            mealList.push(value);
+            printMealListInfo()
+
             var headingId = `heading${itemIndex}`;
             var collapseId = `collapse${itemIndex}`;
 
@@ -138,6 +143,12 @@ function createAccordion(JSONObject) {
     return accordionHtml;
 }
 
+function printMealListInfo() {
+  console.log("MealList length " + mealList.length);
+  for (var meal of mealList) {
+    console.log("Meal " + meal.MealType);
+  }
+}
 
 
 function createAccordionContent(obj) {
@@ -146,8 +157,10 @@ function createAccordionContent(obj) {
   // Create button
   //content += "<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\"> <button type=\"button\" id=\"saveBtn\" class=\"btn btn-danger me-md-2\">Show Object Info</button> </div>";
   // content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end"> <button type="button" class="saveBtn btn btn-danger me-md-2">Show Object Info</button> </div>`;
-  content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end"> <button type="button" class="saveBtn btn btn-danger me-md-2" data-value="${value}">Show Object Info</button> </div>`;
-
+ // content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end"> <button type="button" class="saveBtn btn btn-danger me-md-2">Show Object Info</button> </div>`;
+ content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+ <button type="button" class="saveBtn btn btn-danger me-md-2" data-meal='${JSON.stringify(obj)}'>Show Object Info</button>
+</div>`;
 
   for (var key in obj) {
 
@@ -175,18 +188,24 @@ function createAccordionContent(obj) {
    
   }
 
-   //BUTTON WORKS but need to find how to get the meal data exactly. 
-   document.body.addEventListener("click", function (event) {
-    if (event.target.classList.contains("saveBtn")) {
-        handleSaveBtnClick(obj.mealType)
-    }
-  });
+
+  
   content += "</ul>";
 
 
 
   return content;
 }
+
+   //BUTTON WORKS but need to find how to get the meal data exactly. 
+   document.body.addEventListener("click", function (event) {
+   
+
+    if (event.target.classList.contains("saveBtn")) {
+      const mealData = JSON.parse(event.target.getAttribute("data-meal"));
+      handleSaveBtnClick(mealData);
+    }
+  });
 
 /*document.body.addEventListener("click", function (event) {
   if (event.target.classList.contains("saveBtn")) {
@@ -197,8 +216,11 @@ function createAccordionContent(obj) {
 
 
 function handleSaveBtnClick(obj){
+  var check = false
+
   console.log("Works :)" + obj)
-  alert("IT WORKS " + obj)
+  alert("IT WORKS " + obj.MealType)
+
 }
     
   document
