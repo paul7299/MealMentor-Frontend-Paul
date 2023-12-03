@@ -57,12 +57,15 @@ export async function initMealPlanGenerator() {
         SERVER_URL,
         makeOptions("POST", fullUserInput, true)
       );
-
+      
       if (response.ok) {
         const responseData = await response.json();
-
-        var jsonString = responseData.answer;
-        var myJsonObject = JSON.parse(jsonString);
+      
+        // Parse the outer JSON response
+        const jsonResponse = JSON.parse(responseData.answer);
+      
+        // Now parse the "answer" property
+        const myJsonObject = JSON.parse(jsonResponse);
         document.getElementById("jsonTable").innerHTML =
         createAccordion(myJsonObject);
 
@@ -216,8 +219,19 @@ function createAccordionContent(obj) {
 
 
 function handleSaveBtnClick(obj){
-  var check = false
-
+  const mealBody = {
+    mealtype: obj.MealType,
+    title: obj.Title,
+    ingredients: obj.Ingredients,
+    calories: obj.Calories,
+    protein: obj.Protein,
+    carbohydrates: obj.Carbohydrates,
+    fat: obj.Fat,
+    timeToMake: obj.timeToMake,
+    description: obj.Description,
+    instructions: obj.Instructions,
+    username: localStorage.getItem("user")
+  }
   console.log("Works :)" + obj)
   alert("IT WORKS " + obj.MealType)
 
