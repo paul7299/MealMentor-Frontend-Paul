@@ -1,0 +1,51 @@
+:root {
+  background-color: var(--background-color);
+}
+
+html, body {
+  min-height:100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--background-color);
+  transition: background-color 1s, color 1s;
+}
+[data-theme="light"] body{
+  color: #ffffff; /* Text color for dark mode */
+
+}
+
+/* Default Navbar styles for light mode (navbar appears dark) */
+.navbar {
+  background-color: #11191f; /* Dark background */
+  transition: background-color 1s, color 1s;
+}
+
+/* Navbar styles for dark mode (navbar appears light) */
+[data-theme="dark"] .navbar {
+  background-color: #1095c15b;
+  color: #ffffff;
+}
+
+.navbar-nav {
+  --bs-navbar-active-color: #ffffff;
+  --bs-navbar-color: #ffffff;
+}
+[data-theme="dark"] .navbar-nav {
+  --bs-navbar-active-color: #2d2d2d;
+  --bs-navbar-color: #ffffff;
+  color: #ffffff;
+}
+
+/* Default label style (for light mode) */
+label {
+  color: #000000; /* Dark text for light background */
+}
+
+/* Label style for dark mode */
+body[data-theme='dark'] label {
+  color: #bbc6ce; /* Light text for dark background */
+}
+

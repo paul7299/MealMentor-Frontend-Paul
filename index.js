@@ -32,6 +32,8 @@ window.addEventListener("load", async () => {
   const router = new Navigo("/", { hash: true });
   //Not especially nice, BUT MEANT to simplify things. Make the router global so it can be accessed from all js-files
   // @ts-ignore
+
+  
   window.router = router;
 
   router
@@ -49,10 +51,10 @@ window.addEventListener("load", async () => {
         (document.getElementById("content").innerHTML = `
         <div class="container" style="width: 80%">
         <h1>Meal Plan Generator</h1>
-        <p>About</p>
+        <p>About:</p>
 
 
-        <img style="width: 100px" src="images/MealMentorLogo.png" />
+        <img style="width: 50%;" src="images/MealMentorLogoV2 (1).png" />
       </div>
 
      `),
@@ -80,6 +82,29 @@ window.addEventListener("load", async () => {
     })
     .resolve();
 });
+document.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  const themeToggleCheckbox = document.getElementById('theme-toggle');
+  if (themeToggleCheckbox instanceof HTMLInputElement) {
+      themeToggleCheckbox.checked = savedTheme === 'dark';
+  }
+  setTheme(savedTheme);
+});
+
+if (themeToggleCheckbox instanceof HTMLInputElement) {
+    themeToggleCheckbox.addEventListener('change', function() {
+        const newTheme = this.checked ? 'dark' : 'light';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+}
+
+function setTheme(theme) {
+  document.body.setAttribute('data-theme', theme);
+  const navbar = document.querySelector('.navbar');
+}
+
+
 
 window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
   alert(
