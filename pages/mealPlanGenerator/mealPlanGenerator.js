@@ -60,12 +60,10 @@ export async function initMealPlanGenerator() {
       
       if (response.ok) {
         const responseData = await response.json();
-      
-        // Parse the outer JSON response
-        const jsonResponse = JSON.parse(responseData.answer);
-      
-        // Now parse the "answer" property
-        const myJsonObject = JSON.parse(jsonResponse);
+
+        var jsonString = responseData.answer;
+        var myJsonObject = JSON.parse(jsonString);
+
         document.getElementById("jsonTable").innerHTML =
         createAccordion(myJsonObject);
 
@@ -210,31 +208,43 @@ function createAccordionContent(obj) {
     }
   });
 
-/*document.body.addEventListener("click", function (event) {
-  if (event.target.classList.contains("saveBtn")) {
-      alert("Hello World!");
+
+
+//Function that handles the meal data and makes a fetch request
+async function handleSaveBtnClick(obj) {
+  try {
+    const mealBody = {
+      mealType: obj.MealType,
+      title: obj.Title,
+      instructions: obj.Instructions,
+      ingredients: obj.Ingredients,
+      calories: 397,
+      carbohydrates: 6,
+      fat: 28,
+      protein: 33,
+      timeToMake: obj.TimeToMake,
+      description: obj.Description,
+      username: localStorage.getItem("user"),
+    };
+  
+    const fetchOptions = makeOptions("POST", mealBody, true);
+
+    // POST Request
+    const postResponse = await fetch(API_URL + "/meals/saveToUser", fetchOptions);
+    console.log(postResponse)
+    if (postResponse.ok) {
+      const responseData = await postResponse.text();
+      // Consider using a more user-friendly notification system instead of alerts
+      console.log("Meal Saved", responseData);
+    } else {
+      const errorData = await postResponse.text();
+      throw new Error(errorData);
+    }
+  } catch (error) {
+    console.error(error);
+    // Consider using a more user-friendly notification system instead of alerts
+    console.error("Could not save meal");
   }
-});*/
-
-
-
-function handleSaveBtnClick(obj){
-  const mealBody = {
-    mealtype: obj.MealType,
-    title: obj.Title,
-    ingredients: obj.Ingredients,
-    calories: obj.Calories,
-    protein: obj.Protein,
-    carbohydrates: obj.Carbohydrates,
-    fat: obj.Fat,
-    timeToMake: obj.timeToMake,
-    description: obj.Description,
-    instructions: obj.Instructions,
-    username: localStorage.getItem("user")
-  }
-  console.log("Works :)" + obj)
-  alert("IT WORKS " + obj.MealType)
-
 }
     
   document
