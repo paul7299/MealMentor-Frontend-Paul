@@ -64,7 +64,7 @@ export async function initMealPlanGenerator() {
         var jsonString = responseData.answer;
         var myJsonObject = JSON.parse(jsonString);
         document.getElementById("jsonTable").innerHTML =
-        createTable(myJsonObject);
+        createAccordion(myJsonObject);
 
         if (myJsonObject.hasOwnProperty('Breakfast')) {
           console.log(myJsonObject['Breakfast']); // Logs the 'Breakfast' object
@@ -82,7 +82,7 @@ export async function initMealPlanGenerator() {
 
         document.getElementById("result").innerText =
         "* ERROR *";
-
+        alert(errorData.message);
         throw new Error(errorData.message);
       }
 
@@ -93,46 +93,78 @@ export async function initMealPlanGenerator() {
       const inputContainer = document.getElementById("input-container");
       const newInput = document.createElement("input");
       newInput.type = "text";
-      newInput.placeholder = "Enter a preference/allergy";
+      newInput.placeholder = "Enter a preference";
       inputContainer.appendChild(newInput);
       newInput.addEventListener("input", addPreference);
     }
   }
 
-  function createTable(JSONObject) {
-    var table = "<table border='1'>";
+  
+function createAccordion(JSONObject) {
+    var accordionId = "accordionExample"; // A unique ID for the accordion
+    var accordionHtml = `<div class="accordion" id="${accordionId}">`;
+    var itemIndex = 0;
+
+    
 
     for (var key in JSONObject) {
         if (JSONObject.hasOwnProperty(key)) {
             var value = JSONObject[key];
-            table += "<tr><td><b>" + key + "</b></td>";
+            var headingId = `heading${itemIndex}`;
+            var collapseId = `collapse${itemIndex}`;
 
-            if (Array.isArray(value)) {
-                // Handle array elements
-                table += "<td>";
-                value.forEach(function (item) {
-                    if (typeof item === "object" && item !== null) {
-                        // Recursive call for nested objects in array
-                        table += createTable(item) + "<br>";
-                    } else {
-                        table += item + "<br>";
-                    }
-                });
-                table += "</td>";
-            } else if (typeof value === "object" && value !== null) {
-                // Recursive call for nested objects
-                table += "<td>" + createTable(value) + "</td>";
-            } else {
-                // Handle normal elements
-                table += "<td>" + value + "</td>";
-            }
+            // Use value.MealType to display the meal type in the accordion button
+            var mealType = value.MealType || 'Unknown'; // Fallback to 'Unknown' if MealType is not present
 
-            table += "</tr>";
+            accordionHtml += `
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="${headingId}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="true" aria-controls="${collapseId}">
+                            ${mealType}
+                        </button>
+                    </h2>
+                    <div id="${collapseId}" class="accordion-collapse collapse ${itemIndex === 0 ? 'show' : ''}" aria-labelledby="${headingId}" data-bs-parent="#${accordionId}">
+                        <div class="accordion-body">
+                            ${typeof value === "object" && value !== null ? createAccordionContent(value) : value}
+                        </div>
+                    </div>
+                </div>`;
+            itemIndex++;
         }
     }
 
-    table += "</table>";
-    return table;
+    accordionHtml += `</div>`;
+    return accordionHtml;
+}
+
+
+function createAccordionContent(obj) {
+    var content = "<ul style=\"color: black\">";
+
+     // Create button
+  content += "<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\"> <button type=\"button\" id=\"saveBtn\" class=\"btn btn-danger me-md-2\">Show Object Info</button> </div>";
+
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            var value = obj[key];
+            if (Array.isArray(value)) {
+                // Handle array elements
+                content += `<li>${key}: `;
+                value.forEach(function (item, index) {
+                    content += `${item}${index < value.length - 1 ? ', ' : ''}`;
+                });
+                content += "</li>";
+            } else if (typeof value === "object" && value !== null) {
+                // Recursive call for nested objects
+                content += `<li>${key}: ${createAccordionContent(value)}</li>`;
+            } else {
+                // Handle normal elements
+                content += `<li>${key}: ${value}</li>`;
+            }
+        }
+    }
+    content += "</ul>";
+    return content;
 }
 
 
