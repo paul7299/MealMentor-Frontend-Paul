@@ -18,11 +18,11 @@
         href="https://getbootstrap.com/docs/5.0/components/navbar/"
       />
 
-      <link rel="stylesheet" href="styles/styles.css" />
       <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
       />
+      <link rel="stylesheet" href="styles/styles.css" />
 
       <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.0/purify.min.js"></script>
 
@@ -76,17 +76,17 @@
               <li class="nav-item" id="darkMode-container">
                 <div class="form-check form-switch">
                   <input
-                    style="height: 20px; margin-top: 5px;"
+                    style="height: 20px; margin-top: 5px"
                     class="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="themeToggleCheckbox"
                   />
                   <label style="color: #ffffff8c" for="themeToggleCheckbox"
-                    >Dark Mode</label>
+                    >Dark Mode</label
+                  >
                 </div>
               </li>
-   
 
               <li class="nav-item" id="userSettings-container">
                 <a class="nav-link" href="/userSettings" data-navigo>My User</a>
@@ -101,11 +101,8 @@
                   >Logout (<span id="logout-username"></span>)
                 </a>
               </li>
-              
             </ul>
           </div>
-
-
         </div>
       </nav>
       <div id="content" style="margin: 5%; margin-top: 3px"></div>
