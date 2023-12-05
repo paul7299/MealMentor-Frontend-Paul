@@ -74,6 +74,7 @@ export async function initMealPlanGenerator() {
 
         document.getElementById("wait-button").style.display = "none";
         document.getElementById("submit-button").style.display = "block";
+
         return responseData;
       } else {
         document.getElementById("wait-button").style.display = "none";
@@ -93,23 +94,29 @@ export async function initMealPlanGenerator() {
       const inputContainer = document.getElementById("input-container");
       const newInput = document.createElement("input");
       newInput.type = "text";
-      newInput.placeholder = "Enter a preference";
+      newInput.placeholder = "Enter a preference/allergy";
       inputContainer.appendChild(newInput);
       newInput.addEventListener("input", addPreference);
     }
   }
 
-  
+  let mealList = []
+
 function createAccordion(JSONObject) {
     var accordionId = "accordionExample"; // A unique ID for the accordion
     var accordionHtml = `<div class="accordion" id="${accordionId}">`;
     var itemIndex = 0;
 
-    
+
 
     for (var key in JSONObject) {
         if (JSONObject.hasOwnProperty(key)) {
             var value = JSONObject[key];
+            console.log(value.MealType)
+            //You're working here
+            mealList.push(value);
+            printMealListInfo()
+
             var headingId = `heading${itemIndex}`;
             var collapseId = `collapse${itemIndex}`;
 
@@ -122,6 +129,7 @@ function createAccordion(JSONObject) {
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="true" aria-controls="${collapseId}">
                             ${mealType}
                         </button>
+
                     </h2>
                     <div id="${collapseId}" class="accordion-collapse collapse ${itemIndex === 0 ? 'show' : ''}" aria-labelledby="${headingId}" data-bs-parent="#${accordionId}">
                         <div class="accordion-body">
@@ -137,38 +145,107 @@ function createAccordion(JSONObject) {
     return accordionHtml;
 }
 
+function printMealListInfo() {
+  console.log("MealList length " + mealList.length);
+  for (var meal of mealList) {
+    console.log("Meal " + meal.MealType);
+  }
+}
+
 
 function createAccordionContent(obj) {
-    var content = "<ul style=\"color: black\">";
+  var content = "<ul style=\"color: black\">";
 
-     // Create button
-  content += "<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\"> <button type=\"button\" id=\"saveBtn\" class=\"btn btn-danger me-md-2\">Show Object Info</button> </div>";
+  // Create button
+  content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+ <button type="button" class="saveBtn btn btn-danger me-md-2" data-meal='${JSON.stringify(obj)}'>Show Object Info</button>
+</div>`;
 
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            var value = obj[key];
-            if (Array.isArray(value)) {
-                // Handle array elements
-                content += `<li>${key}: `;
-                value.forEach(function (item, index) {
-                    content += `${item}${index < value.length - 1 ? ', ' : ''}`;
-                });
-                content += "</li>";
-            } else if (typeof value === "object" && value !== null) {
-                // Recursive call for nested objects
-                content += `<li>${key}: ${createAccordionContent(value)}</li>`;
-            } else {
-                // Handle normal elements
-                content += `<li>${key}: ${value}</li>`;
-            }
-        }
-    }
-    content += "</ul>";
-    return content;
+  for (var key in obj) {
+
+      if (obj.hasOwnProperty(key)) {
+          var value = obj[key];
+
+          if (Array.isArray(value)) {
+              // Handle array elements
+              content += `<li>${key}: `;
+              value.forEach(function (item, index) {
+                  content += `${item}${index < value.length - 1 ? ', ' : ''}`;
+              });
+              content += "</li>";
+          } else if (typeof value === "object" && value !== null) {
+              // Recursive call for nested objects
+              content += `<li>${key}: ${createAccordionContent(value)}</li>`;
+          } else {
+              // Handle normal elements
+              content += `<li>${key}: ${value}</li>`;
+          }
+
+
+
+      }
+
+  }
+
+
+
+  content += "</ul>";
+
+
+
+  return content;
 }
 
+   //BUTTON WORKS but need to find how to get the meal data exactly.
+   document.body.addEventListener("click", function (event) {
+
+
+    if (event.target.classList.contains("saveBtn")) {
+      const mealData = JSON.parse(event.target.getAttribute("data-meal"));
+      handleSaveBtnClick(mealData);
+    }
+  });
+
+
+
+//Function that handles the meal data and makes a fetch request
+async function handleSaveBtnClick(obj) {
+  try {
+    const mealBody = {
+      mealType: obj.MealType,
+      title: obj.Title,
+      instructions: obj.Instructions,
+      ingredients: obj.Ingredients,
+      calories: 397,
+      carbohydrates: 6,
+      fat: 28,
+      protein: 33,
+      timeToMake: obj.TimeToMake,
+      description: obj.Description,
+      username: localStorage.getItem("user"),
+    };
+
+    const fetchOptions = makeOptions("POST", mealBody, true);
+
+    // POST Request
+    const postResponse = await fetch(API_URL + "/meals/saveToUser", fetchOptions);
+    console.log(postResponse)
+    if (postResponse.ok) {
+      const responseData = await postResponse.text();
+      // Consider using a more user-friendly notification system instead of alerts
+      console.log("Meal Saved", responseData);
+    } else {
+      const errorData = await postResponse.text();
+      throw new Error(errorData);
+    }
+  } catch (error) {
+    console.error(error);
+    // Consider using a more user-friendly notification system instead of alerts
+    console.error("Could not save meal");
+  }
+}
 
   document
-    .getElementById("preference-input")
-    .addEventListener("input", addPreference);
-}
+  .getElementById("preference-input")
+  .addEventListener("input", addPreference);
+  }
