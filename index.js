@@ -84,20 +84,18 @@ window.addEventListener("load", async () => {
 });
 document.addEventListener('DOMContentLoaded', () => {
   const savedTheme = localStorage.getItem('theme') || 'light';
-  const themeToggleCheckbox = document.getElementById('theme-toggle');
+  const themeToggleCheckbox = document.getElementById('themeToggleCheckbox'); // Corrected ID
   if (themeToggleCheckbox instanceof HTMLInputElement) {
-      themeToggleCheckbox.checked = savedTheme === 'dark';
+    themeToggleCheckbox.checked = savedTheme === 'dark'; // Checkbox checked if theme is dark
   }
   setTheme(savedTheme);
 });
 
-if (themeToggleCheckbox instanceof HTMLInputElement) {
-    themeToggleCheckbox.addEventListener('change', function() {
-        const newTheme = this.checked ? 'dark' : 'light';
-        setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
-}
+document.getElementById('themeToggleCheckbox').addEventListener('change', function() {
+  const newTheme = this.checked ? 'dark' : 'light';
+  setTheme(newTheme);
+  localStorage.setItem('theme', newTheme);
+});
 
 function setTheme(theme) {
   document.body.setAttribute('data-theme', theme);
