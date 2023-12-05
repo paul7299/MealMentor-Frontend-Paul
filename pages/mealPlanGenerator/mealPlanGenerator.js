@@ -100,7 +100,6 @@ export async function initMealPlanGenerator() {
     }
   }
 
-  let mealList = []
 
 function createAccordion(JSONObject) {
     var accordionId = "accordionExample"; // A unique ID for the accordion
@@ -113,9 +112,8 @@ function createAccordion(JSONObject) {
         if (JSONObject.hasOwnProperty(key)) {
             var value = JSONObject[key];
             console.log(value.MealType)
-            //You're working here
-            mealList.push(value);
-            printMealListInfo()
+
+
 
             var headingId = `heading${itemIndex}`;
             var collapseId = `collapse${itemIndex}`;
@@ -145,12 +143,7 @@ function createAccordion(JSONObject) {
     return accordionHtml;
 }
 
-function printMealListInfo() {
-  console.log("MealList length " + mealList.length);
-  for (var meal of mealList) {
-    console.log("Meal " + meal.MealType);
-  }
-}
+
 
 
 function createAccordionContent(obj) {
