@@ -149,9 +149,10 @@ function createAccordion(JSONObject) {
 function createAccordionContent(obj) {
   var content = "<ul style=\"color: black\">";
 
-  // Create button
-  content += `<div class="d-grid gap-2 d-md-flex justify-content-md-end">
- <button type="button" class="saveBtn btn btn-danger me-md-2" data-meal='${JSON.stringify(obj)}'>Show Object Info</button>
+
+ // Create button
+ content += `<div class="d-inline-flex p-2">
+ <button type="button" class="saveBtn btn-success btn-sm me-md-2" data-meal='${JSON.stringify(obj)}'>Save this meal</button>
 </div>`;
 
   for (var key in obj) {
