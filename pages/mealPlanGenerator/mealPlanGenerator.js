@@ -85,15 +85,12 @@ export async function initMealPlanGenerator() {
 
       
     });
-  function addPreference(event) {
-    if (event.target.value.length === 1) {
+  function addPreference() {
       const inputContainer = document.getElementById("input-container");
       const newInput = document.createElement("input");
       newInput.type = "text";
-      newInput.placeholder = "Enter a preference/allergy";
+      newInput.placeholder = "Enter a preference";
       inputContainer.appendChild(newInput);
-      newInput.addEventListener("input", addPreference);
-    }
   }
 
 
@@ -235,7 +232,5 @@ async function handleSaveBtnClick(obj) {
   }
 }
 
-  document
-  .getElementById("preference-input")
-  .addEventListener("input", addPreference);
-  }
+document.getElementById("add-preference-button").addEventListener("click", addPreference);
+}
