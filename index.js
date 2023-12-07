@@ -2,26 +2,35 @@
 import "./navigo_EditedByLars.js"; //Will create the global Navigo, with a few changes, object used below
 //import "./navigo.min.js"  //Will create the global Navigo object used below
 
-import { setActiveLink, loadHtml, renderHtml, } from "./utils.js";
+import { setActiveLink, loadHtml, renderHtml } from "./utils.js";
 
 import { initMealPlanGenerator } from "./pages/mealPlanGenerator/mealPlanGenerator.js";
 import { initUserSettings } from "./pages/userSettings/userSettings.js";
 
 import { initLogin } from "./pages/login/login.js";
-import { toggleUiBasedOnRoles, isUserLoggedIn, logout } from "./pages/login/login.js";
-
-
+import {
+  toggleUiBasedOnRoles,
+  isUserLoggedIn,
+  logout,
+} from "./pages/login/login.js";
+import { initUsersSavedMeals } from "./pages/usersSavedMeals/usersSavedMeals.js";
 
 window.addEventListener("load", async () => {
+  const templateMealPlanGenerator = await loadHtml(
+    "./pages/mealPlanGenerator/mealPlanGenerator.html"
+  );
 
-  const templateMealPlanGenerator = await loadHtml("./pages/mealPlanGenerator/mealPlanGenerator.html");
+  const templateUserSettings = await loadHtml(
+    "./pages/userSettings/userSettings.html"
+  );
 
-  const templateUserSettings = await loadHtml("./pages/userSettings/userSettings.html");
+  const templateLogin = await loadHtml("./pages/login/login.html");
 
-  const templateLogin = await loadHtml("./pages/login/login.html");  
-  
+  const templateUsersSavedMeals = await loadHtml(
+    "./pages/usersSavedMeals/usersSavedMeals.html"
+  );
+
   const templateNotFound = await loadHtml("./pages/notFound/notFound.html");
-
 
   //If token existed, for example after a refresh, set UI accordingly
   const token = localStorage.getItem("token");
@@ -33,7 +42,6 @@ window.addEventListener("load", async () => {
   //Not especially nice, BUT MEANT to simplify things. Make the router global so it can be accessed from all js-files
   // @ts-ignore
 
-  
   window.router = router;
 
   router
@@ -42,7 +50,6 @@ window.addEventListener("load", async () => {
         setActiveLink("menu", match.url);
         isLoggedIn();
         done();
-        
       },
     })
     .on({
@@ -73,36 +80,39 @@ window.addEventListener("load", async () => {
       },
       "/logout": () => {
         logout();
-        alert("You are now logged out")
+        alert("You are now logged out");
       },
-  
+      "/usersSavedMeals": () => {
+        handleProtectedRoute(templateUsersSavedMeals);
+        initUsersSavedMeals();
+      },
     })
     .notFound(() => {
       renderHtml(templateNotFound, "content");
     })
     .resolve();
 });
-document.addEventListener('DOMContentLoaded', () => {
-  const savedTheme = localStorage.getItem('theme') || 'light';
-  const themeToggleCheckbox = document.getElementById('themeToggleCheckbox'); // Corrected ID
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme") || "light";
+  const themeToggleCheckbox = document.getElementById("themeToggleCheckbox"); // Corrected ID
   if (themeToggleCheckbox instanceof HTMLInputElement) {
-    themeToggleCheckbox.checked = savedTheme === 'dark'; // Checkbox checked if theme is dark
+    themeToggleCheckbox.checked = savedTheme === "dark"; // Checkbox checked if theme is dark
   }
   setTheme(savedTheme);
 });
 
-document.getElementById('themeToggleCheckbox').addEventListener('change', function() {
-  const newTheme = this.checked ? 'dark' : 'light';
-  setTheme(newTheme);
-  localStorage.setItem('theme', newTheme);
-});
+document
+  .getElementById("themeToggleCheckbox")
+  .addEventListener("change", function () {
+    const newTheme = this.checked ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  });
 
 function setTheme(theme) {
-  document.body.setAttribute('data-theme', theme);
-  const navbar = document.querySelector('.navbar');
+  document.body.setAttribute("data-theme", theme);
+  const navbar = document.querySelector(".navbar");
 }
-
-
 
 window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
   alert(
@@ -119,24 +129,21 @@ window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
   );
 };
 
-
-
 function isLoggedIn() {
-  if (isUserLoggedIn()) {  
+  if (isUserLoggedIn()) {
     toggleUiBasedOnRoles(true);
   } else {
     toggleUiBasedOnRoles(false);
   }
 }
 
-
-       function handleProtectedRoute(template) {
-        if (!isUserLoggedIn()) {
-          // If not logged in, display an alert and redirect to the index page
-          alert("You should be logged in to access this page.");
-          window.location.href = "/";
-        } else {
-          // If logged in, render the protected page
-          renderHtml(template, "content");
-        }
-      }
+function handleProtectedRoute(template) {
+  if (!isUserLoggedIn()) {
+    // If not logged in, display an alert and redirect to the index page
+    alert("You should be logged in to access this page.");
+    window.location.href = "/";
+  } else {
+    // If logged in, render the protected page
+    renderHtml(template, "content");
+  }
+}
