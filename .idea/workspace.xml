@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ff52feac-7956-4bb8-b665-9be1980aec7e" name="Changes" comment="">
+    <list default="true" id="ff52feac-7956-4bb8-b665-9be1980aec7e" name="Changes" comment="2nd commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,8 +43,15 @@
       <option name="presentableId" value="Default" />
       <updated>1701766439963</updated>
       <workItem from="1701766441040" duration="27000" />
-      <workItem from="1701948631372" duration="1912000" />
+      <workItem from="1701948631372" duration="2706000" />
     </task>
+    <task id="LOCAL−00001" summary="2nd commit">
+      <created>1701950980856</created>
+      <option name="number" value="LOCAL−00001" />
+      <option name="presentableId" value="LOCAL−00001" />
+      <updated>1701950980856</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -60,5 +67,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="2nd commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="2nd commit" />
   </component>
 </project>
