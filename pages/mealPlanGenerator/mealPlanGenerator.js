@@ -64,11 +64,7 @@ export async function initMealPlanGenerator() {
         var jsonString = responseData.answer;
         var myJsonObject = JSON.parse(jsonString);
         document.getElementById("jsonTable").innerHTML =
-        createAccordion(myJsonObject);
-
-        if (myJsonObject.hasOwnProperty('Breakfast')) {
-          console.log(myJsonObject['Breakfast']); // Logs the 'Breakfast' object
-      }    
+        createAccordion(myJsonObject);   
 
         //alert("Answer from OpenAI received");
 
@@ -146,7 +142,6 @@ function createAccordion(JSONObject) {
 function createAccordionContent(obj) {
   var content = "<ul style=\"color: black\">";
 
-
  // Create button
  content += `<div class="d-inline-flex p-2">
  <button type="button" class="saveBtn btn-success btn-sm me-md-2" data-meal='${JSON.stringify(obj)}'>Save this meal</button>
@@ -211,7 +206,7 @@ async function handleSaveBtnClick(obj) {
       carbohydrates: 6,
       fat: 28,
       protein: 33,
-      timeToMake: obj.TimeToMake,
+      timeToMake: obj['Time to make'],
       description: obj.Description,
       username: localStorage.getItem("user"),
     };
@@ -225,6 +220,7 @@ async function handleSaveBtnClick(obj) {
       const responseData = await postResponse.text();
       // Consider using a more user-friendly notification system instead of alerts
       console.log("Meal Saved", responseData);
+      alert(obj.Title + " has been saved")
     } else {
       const errorData = await postResponse.text();
       throw new Error(errorData);

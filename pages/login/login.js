@@ -138,6 +138,7 @@ export function toggleUiBasedOnRoles() {
 
   const mealplanContainer = document.getElementById("mealplan-container");
   const userSettingsContainer = document.getElementById("userSettings-container");
+  const usersSavedMealsContainer = document.getElementById("usersSavedMeals-container");
 
   // console.log("Roles: ", roles)
   console.log("Local token: ", localStorage.getItem("token"));
@@ -162,6 +163,7 @@ export function toggleUiBasedOnRoles() {
 
     mealplanContainer.style.display = "block";
     userSettingsContainer.style.display = "block";
+    usersSavedMealsContainer.style.display = "block"
 
   } else {
 
@@ -171,6 +173,7 @@ export function toggleUiBasedOnRoles() {
     loginContainer.style.display = "block";
     mealplanContainer.style.display = "none";
     userSettingsContainer.style.display = "none";
+    usersSavedMealsContainer.style.display = "none";
   }
 }
 
